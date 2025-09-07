@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>저희 결혼합니다 | 상민 ♥ 진희</title>
+
+  <!-- OG / 공유 썸네일 -->
+  <meta property="og:title" content="저희 결혼합니다" />
+  <meta property="og:description" content="2025-12-13 토요일 오후 2시 · 더에스비웨딩컨벤션 3층" />
+  <meta property="og:image" content="https://example.com/og-image.jpg" />
+
+  <!-- 파비콘(선택) -->
+  <link rel="icon" href="/favicon.ico" />
+
+  <style>
+  /* ===== Webfonts: SUIT Variable + 배민주아(BM JUA) ===== */
+  @font-face {
+    font-family: "SUIT Variable";
+    src: url("https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/woff2/SUIT-Variable.woff2") format("woff2-variations");
+    font-weight: 100 900; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: "BM JUA";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.1/BMJUA.woff") format("woff");
+    font-weight: normal; font-style: normal; font-display: swap;
+  }
+
+  :root{
+    --accent: #edacb1;
+    --ink: #313131;
+    --bg: #fff;
+    --soft-bg: #fff5f9;
+    --muted: #777;
+    --radius: 14px;
+    --shadow: 0 8px 32px rgba(0,0,0,.06);
+    --maxw: 560px;
+    --font-sans: "SUIT Variable", "Noto Sans KR", Apple SD Gothic Neo, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    --font-fancy: "BM JUA", "SUIT Variable", system-ui, -apple-system, "Noto Sans KR", sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:18px}
+
+  .hero{
+    position:relative;overflow:hidden;border-radius:var(--radius);
+    min-height:52vh;background:#000 url("./KakaoTalk_20250907_195152669.jpg") center/cover no-repeat;
+    color:#fff; display:flex; align-items:flex-end; justify-content:center; text-align:center; box-shadow:var(--shadow)
+  }
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,.55) 60%,rgba(0,0,0,.75) 100%)}
+  .hero-inner{position:relative;z-index:1;padding:36px 18px 24px}
+  .pill{display:inline-block;margin-top:12px;padding:6px 10px;border:1px solid rgba(255,255,255,.45);border-radius:999px;font-size:11px;opacity:.9}
+  .names{font-family:var(--font-fancy);font-weight:400;font-size:36px;letter-spacing:.02em}
+  .amp{color:var(--accent)}
+  .date{margin-top:6px;font-size:15px;opacity:.95}
+
+  h2.section-title{
+    margin:28px 0 12px; color:var(--accent); font-family:var(--font-fancy); font-weight:400; letter-spacing:.02em;font-size:18px;
+  }
+  .card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin:14px 0;}
+  .grid{display:grid;gap:12px}
+  @media (min-width: 760px){
+    .grid.cols-2{grid-template-columns:1fr 1fr}
+    .grid.cols-3{grid-template-columns:repeat(3,1fr)}
+  }
+
+  .info-line{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+  .info-line .chip{padding:6px 10px;border-radius:999px;background:var(--soft-bg);border:1px solid #ffe3eb}
+  .muted{color:var(--muted)}
+  .center{text-align:center}
+  .small{font-size:13px}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:12px 14px;border-radius:10px;background:var(--accent);color:#313131;font-weight:700;border:none;cursor:pointer;
+    box-shadow:0 6px 18px rgba(237,172,177,.35);font-size:14px;
+  }
+  .btn.ghost{background:#fff;border:1px solid #eee;box-shadow:none}
+  .btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+  .divider{height:1px;background:linear-gradient(90deg,transparent,#eee,transparent);margin:18px 0}
+
+  /* 연락처 / 계좌 아코디언 */
+  details{border:1px solid #f3f3f3;border-radius:12px;padding:12px 14px;background:#fff}
+  details summary{cursor:pointer;list-style:none;font-weight:800;display:flex;align-items:center;justify-content:space-between;font-size:14px}
+  details summary::marker{display:none}
+  details .rows{margin-top:10px;display:grid;gap:8px}
+  .row{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap}
+  .copy{font-size:12px;border:1px dashed #ddd;border-radius:999px;padding:4px 8px;cursor:pointer}
+
+  /* 카운트다운 */
+  .countdown{display:flex;justify-content:center;gap:8px;margin-top:8px}
+  .cd-box{width:68px;height:68px;border-radius:12px;background:#fff;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .cd-number{font-size:20px;font-weight:800}
+  .cd-label{font-size:11px;color:var(--muted)}
+
+  /* 갤러리 */
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+  .gallery img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;cursor:pointer}
+  .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:50}
+  .lightbox.open{display:flex}
+  .lightbox img{
+    max-width:90vw;max-height:80vh;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,.5);
+    /* 확대 방지 */
+    touch-action: none; -ms-touch-action: none;
+  }
+  .lightbox{
+    /* iOS에서 더블탭/핀치 확대 방지 보강 */
+    touch-action: none; -ms-touch-action: none;
+  }
+
+  /* 지도/네비 */
+  .map{width:100%;height:300px;border-radius:12px;overflow:hidden;background:#f7f7f7}
+  .navi{display:flex;gap:10px;justify-content:center;margin-top:12px}
+
+  footer{padding:28px 0 16px;text-align:center;color:var(--muted);font-size:12px}
+
+  /* ======= INTERVIEW (말풍선) ======= */
+  .interview{padding:0}
+  .interview .title{font-family:var(--font-fancy);letter-spacing:.02em;color:var(--accent);text-align:center;font-size:20px}
+  .interview .subtitle{font-size:12px;text-align:center;margin:8px 0 14px}
+  .bubble_container{display:grid;gap:12px}
+  .bubble_box{display:flex;flex-direction:column;gap:6px;max-width:640px;margin:0}
+  .bubble_box.left{align-items:flex-start}.bubble_box.right{align-items:flex-end}
+  .bubble_box .name{font-weight:800;font-size:12px;color:#999}
+  .bubble_wrapper{position:relative;max-width:min(100%,640px)}
+  .bubble_text{display:inline-block;border-radius:16px;padding:10px 14px;font-size:14px;line-height:1.55;box-shadow:var(--shadow)}
+  .left .bubble_text{background:#eaf6ff}
+  .right .bubble_text{background:var(--accent);color:#313131}
+  .inter-q{font-size:13px;margin:18px 0 8px;text-align:center;font-weight:700}
+
+  /* 말풍선 꼬리 */
+  .bubble_box.left .bubble_text { position: relative; }
+  .bubble_box.left .bubble_text::after{
+    content:""; position:absolute; left:-6px; top:12px; width:8px; height:8px;
+    background:#eaf6ff; transform: rotate(45deg); border-radius:2px; box-shadow: var(--shadow);
+  }
+  .bubble_box.right .bubble_text { position: relative; }
+  .bubble_box.right .bubble_text::after{
+    content:""; position:absolute; right:-6px; top:12px; width:8px; height:8px;
+    background:var(--accent); transform: rotate(45deg); border-radius:2px; box-shadow: var(--shadow);
+  }
+
+  /* 인터뷰 스크롤 등장 */
+  #interview .bubble_container { justify-items: start; }
+  #interview .bubble_box.left  { justify-self: start; align-items: flex-start; }
+  #interview .bubble_box.right { justify-self: end;   align-items: flex-end;   }
+  .bubble_box { opacity: 0; transform: translateY(30px); transition: opacity .6s ease, transform .6s ease; }
+  .bubble_box.show { opacity:1; transform:none; }
+  .interview .interview_q, .interview .inter-q { opacity:.001; transform: translateY(20px); transition: opacity .45s ease, transform .45s ease; }
+  .interview .interview_q.show, .interview .inter-q.show { opacity:1; transform:none; }
+
+  /* ===== 공통 스크롤 등장(히어로는 제외) ===== */
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .55s ease, transform .55s ease; }
+  .reveal.show { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const targets = document.querySelectorAll(
+      '#interview .inter-q, #interview .interview_q, #interview .bubble_container > div, #interview .bubble_box'
+    );
+    targets.forEach(el => { el.style.removeProperty('opacity'); el.style.removeProperty('transform'); });
+
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=> e.target.classList.toggle('show', e.isIntersecting));
+    }, { threshold: 0.15, rootMargin: '0px 0px -5% 0px' });
+
+    targets.forEach(el=> io.observe(el));
+  });
+  </script>
+
+  <header class="wrap">
+    <div class="hero">
+      <div class="hero-inner">
+        <div class="pill">SAVE THE DATE</div>
+        <div class="names">SANG MIN <span class="amp">♥</span> JIN HEE</div>
+        <div class="date">2025-12-13 토요일 오후 2시 · 더에스비웨딩컨벤션 3층</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- 인사말 -->
+    <section class="card center">
+      <h2 class="section-title">Wedding Day</h2>
+      <p class="small">봄처럼 포근하고 여름처럼 뜨겁고
+가을처럼 충만하고 겨울처럼 설레는 사람을 만났습니다.
+이제 서로의 모든 계절을 지나려 합니다.
+가장 빛나는 날,
+늘 곁에서 아껴준 고마운 분들을 초대합니다.</p>
+      <div class="divider"></div>
+      <div class="info-line small muted">
+        <span class="chip">신랑 이상민</span>
+        <span class="chip">신부 이진희</span>
+        <span class="chip">장소 더에스비웨딩컨벤션 3층</span>
+        <span class="chip">서울 동작구 보라매로5길 15</span>
+      </div>
+    </section>
+
+    <!-- 연락처 -->
+    <section>
+      <h2 class="section-title">CONTACT</h2>
+      <div class="grid cols-2">
+        <details open class="card">
+          <summary>신랑측 연락하기 <span>▼</span></summary>
+          <div class="rows small">
+            <div class="row">신랑 이상민 • <a href="tel:01050405445">010-5040-5445</a> <span class="copy" data-copy="01050405445">복사</span></div>
+            <div class="row">아버지 이제영 • <a href="tel:01052030725">010-5203-0725</a> <span class="copy" data-copy="01052030725">복사</span></div>
+            <div class="row">어머니 윤혜정 • <a href="tel:01027310724">010-2731-0724</a> <span class="copy" data-copy="01027310724">복사</span></div>
+          </div>
+        </details>
+
+        <details class="card">
+          <summary>신부측 연락하기 <span>▼</span></summary>
+          <div class="rows small">
+            <div class="row">신부 이진희 • <a href="tel:01035364854">010-3536-4854</a> <span class="copy" data-copy="01035364854">복사</span></div>
+            <div class="row">어머니 이정연 • <a href="tel:01084704854">010-8470-4854</a> <span class="copy" data-copy="01084704854">복사</span></div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 마음 전하실 곳 -->
+    <section>
+      <h2 class="section-title">ACCOUNT NUMBER</h2>
+      <p class="small center muted">따로 계좌번호를 여쭤보시는 수고를 덜기 위해 기입합니다. 부담 갖지 않으셔도 됩니다.</p>
+      <div class="grid cols-2">
+        <details class="card" open>
+          <summary>신랑측 <span>▼</span></summary>
+          <div class="rows small">
+            <div class="row">국민 • 이상민 • <span class="copy" data-copy="123456-01-000000">123456-01-000000</span></div>
+            <div class="row">토스 • 이상민 • <span class="copy" data-copy="1000-0000-0000">1000-0000-0000</span></div>
+          </div>
+        </details>
+        <details class="card">
+          <summary>신부측 <span>▼</span></summary>
+          <div class="rows small">
+            <div class="row">신한 • 이진희 • <span class="copy" data-copy="110-000-000000">110-000-000000</span></div>
+            <div class="row">우리 • 이정연 • <span class="copy" data-copy="1002-000-000000">1002-000-000000</span></div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- D-DAY -->
+    <section class="card center" id="dday">
+      <h2 class="section-title">D-DAY</h2>
+      <p class="small">상민 ♥ 진희 결혼식이 <b><span id="dtext">97일</span></b> 남았습니다.</p>
+      <div class="countdown" role="timer" aria-live="polite">
+        <div class="cd-box"><div class="cd-number" id="cd-days">0</div><div class="cd-label">DAYS</div></div>
+        <div class="cd-box"><div class="cd-number" id="cd-hours">0</div><div class="cd-label">HOURS</div></div>
+        <div class="cd-box"><div class="cd-number" id="cd-mins">0</div><div class="cd-label">MINUTES</div></div>
+        <div class="cd-box"><div class="cd-number" id="cd-secs">0</div><div class="cd-label">SECONDS</div></div>
+      </div>
+    </section>
+
+    <!-- 갤러리 -->
+    <section>
+      <h2 class="section-title">GALLERY</h2>
+      <p class="small muted center">사진을 클릭하면 크게 볼 수 있어요.</p>
+      <div class="gallery card">
+        <img src="./KakaoTalk_20250908_010410211_01.jpg" alt="gallery1">
+        <img src="./KakaoTalk_20250908_010410211.jpg" alt="gallery2">
+      <div class="lightbox" id="lightbox"><img alt="preview"></div>
+    </section>
+
+    <!-- 메시지(방명록 링크 자리) -->
+    <section class="card center">
+      <h2 class="section-title">MESSAGE</h2>
+      <p class="small muted">웨딩 케이크를 축하 메시지로 가득 채워주세요</p>
+      <div class="btns" style="margin-top:8px">
+        <a class="btn" href="#!" title="전체보기">전체보기</a>
+        <a class="btn ghost" href="#!" title="작성하기">작성하기</a>
+      </div>
+    </section>
+
+    <!-- INTERVIEW -->
+    <section class="card interview" id="interview">
+      <h3 class="title">INTERVIEW</h3>
+      <p class="subtitle">다섯 글자로 전하는 우리 이야기</p>
+
+      <p class="inter-q">상민, 진희에게 메시지가 도착했습니다.</p>
+      <div class="bubble_container">
+        <div class="bubble_box left">
+          <p class="name">상민</p>
+          <div class="bubble_wrapper"><p class="bubble_text">사랑합니다</p></div>
+        </div>
+        <div class="bubble_box right">
+          <p class="name">진희</p>
+          <div class="bubble_wrapper"><p class="bubble_text">항상고마워</p></div>
+        </div>
+      </div>
+
+      <p class="inter-q">서로에게서 가장 좋은 점은?</p>
+      <div class="bubble_container">
+        <div class="bubble_box left">
+          <p class="name">상민</p>
+          <div class="bubble_wrapper"><p class="bubble_text">맑은미소요</p></div>
+        </div>
+        <div class="bubble_box right">
+          <p class="name">진희</p>
+          <div class="bubble_wrapper"><p class="bubble_text">오직너뿐이</p></div>
+        </div>
+      </div>
+
+      <p class="inter-q">가장 기억에 남는 순간은?</p>
+      <div class="bubble_container">
+        <div class="bubble_box left">
+          <p class="name">상민</p>
+          <div class="bubble_wrapper"><p class="bubble_text">첫서울야경</p></div>
+        </div>
+        <div class="bubble_box right">
+          <p class="name">진희</p>
+          <div class="bubble_wrapper"><p class="bubble_text">첫제주일출</p></div>
+        </div>
+      </div>
+
+      <p class="inter-q">우리 아이가 닮았으면 하는 부분은?</p>
+      <div class="bubble_container">
+        <div class="bubble_box left">
+          <p class="name">상민</p>
+          <div class="bubble_wrapper"><p class="bubble_text">보조개최고</p></div>
+        </div>
+        <div class="bubble_box right">
+          <p class="name">진희</p>
+          <div class="bubble_wrapper"><p class="bubble_text">따뜻한마음</p></div>
+        </div>
+      </div>
+
+      <p class="inter-q">앞으로 서로에게 바라는 점은?</p>
+      <div class="bubble_container">
+        <div class="bubble_box left">
+          <p class="name">상민</p>
+          <div class="bubble_wrapper"><p class="bubble_text">매일대화해</p></div>
+        </div>
+        <div class="bubble_box right">
+          <p class="name">진희</p>
+          <div class="bubble_wrapper"><p class="bubble_text">건강최우선</p></div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- LOCATION -->
+    <section>
+      <h2 class="section-title">LOCATION</h2>
+      <div class="card">
+        <p class="center"><b>더에스비웨딩컨벤션</b><br><span class="small muted">3층 · 서울 동작구 보라매로5길 15</span></p>
+        <div id="map" class="map" role="img" aria-label="예식장 지도"></div>
+        <div class="navi">
+          <a class="btn ghost" target="_blank" href="https://map.kakao.com/link/search/%EB%8D%94%EC%97%90%EC%8A%A4%EB%B9%84%EC%9B%A8%EB%94%A9%EC%BB%A8%EB%B2%84%EC%85%98%20%EB%8F%99%EC%9E%91%EA%B5%AC%20%EB%B3%B4%EB%9D%BC%EB%A7%A4%EB%A1%9C5%EA%B8%B8%2015" rel="noopener">카카오맵 열기</a>
+          <a class="btn ghost" target="_blank" href="https://maps.google.com/?q=%EC%84%9C%EC%9A%B8%20%EB%8F%99%EC%9E%91%EA%B5%AC%20%EB%B3%B4%EB%9D%BC%EB%A7%A4%EB%A1%9C5%EA%B8%B8%2015%20%EB%8D%94%EC%97%90%EC%8A%A4%EB%B9%84%EC%9B%A8%EB%94%A9%EC%BB%A8%EB%B2%84%EC%85%98" rel="noopener">구글지도 열기</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ICS 달력 버튼 -->
+    <section class="center" style="margin-top:12px">
+      <a class="btn" id="icsBtn" download="상민진희_결혼식_2025-12-13.ics" href="#">캘린더에 추가</a>
+      <p class="small muted" style="margin-top:6px">하루 전 & 2시간 전 알림 포함</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap small">
+      © 2025 SANG MIN ♥ JIN HEE
+    </div>
+  </footer>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    /* ===== 인터뷰 애니메이션(기존) ===== */
+    const interTargets = document.querySelectorAll(
+      '#interview .inter-q, #interview .interview_q, #interview .bubble_container > div, #interview .bubble_box'
+    );
+    interTargets.forEach(el => { el.style.removeProperty('opacity'); el.style.removeProperty('transform'); });
+
+    /* ===== 공통 reveal 대상(히어로 제외) 자동 지정 ===== */
+    const commonReveals = [
+      ...document.querySelectorAll('.section-title'),
+      ...document.querySelectorAll('.card'),
+      ...document.querySelectorAll('.gallery img'),
+      ...document.querySelectorAll('.navi .btn'),
+    ];
+    commonReveals.forEach(el => el.classList.add('reveal'));
+
+    /* ===== 하나의 IO로 모두 제어 ===== */
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=> e.target.classList.toggle('show', e.isIntersecting));
+    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+
+    [...interTargets, ...commonReveals].forEach(el=> io.observe(el));
+
+    /* ===== 라이트박스 확대 방지 ===== */
+    const lb = document.getElementById('lightbox');
+    const lbImg = lb.querySelector('img');
+
+    let lastTouchEnd = 0;
+    const preventZoom = (e) => e.preventDefault();
+
+    function bindNoZoom(){
+      // iOS 제스처/더블탭 확대 방지
+      lb.addEventListener('gesturestart', preventZoom, { passive:false });
+      lb.addEventListener('gesturechange', preventZoom, { passive:false });
+      lb.addEventListener('gestureend', preventZoom, { passive:false });
+      lb.addEventListener('touchend', (e)=>{
+        const now = Date.now();
+        if (now - lastTouchEnd <= 300) e.preventDefault();  // 더블탭 방지
+        lastTouchEnd = now;
+      }, { passive:false });
+      // CSS touch-action은 style에서 이미 처리
+    }
+    function unbindNoZoom(){
+      lb.removeEventListener('gesturestart', preventZoom);
+      lb.removeEventListener('gesturechange', preventZoom);
+      lb.removeEventListener('gestureend', preventZoom);
+    }
+
+    /* ===== 갤러리 라이트박스 ===== */
+    document.querySelectorAll('.gallery img').forEach(img=>{
+      img.addEventListener('click', ()=>{
+        lbImg.src = img.src;
+        lb.classList.add('open');
+        bindNoZoom();
+      });
+    });
+    lb.addEventListener('click', ()=>{
+      lb.classList.remove('open');
+      unbindNoZoom();
+    });
+
+    /* ===== 지도 (SDK 있으면 카카오, 없으면 iframe) ===== */
+    function initKakaoMap(){
+      if(!window.kakao || !kakao.maps) return;
+      const container = document.getElementById('map');
+      const center = new kakao.maps.LatLng(37.490617, 126.921312); // 보라매로5길 15 인근
+      const map = new kakao.maps.Map(container, { center, level: 4 });
+      new kakao.maps.Marker({ map, position: center });
+    }
+    if (document.getElementById('map')) {
+      if (window.kakao && kakao.maps) initKakaoMap();
+      else {
+        document.getElementById('map').innerHTML =
+          '<iframe title="map" width="100%" height="300" style="border:0" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=%EC%84%9C%EC%9A%B8%20%EB%8F%99%EC%9E%91%EA%B5%AC%20%EB%B3%B4%EB%9D%BC%EB%A7%A4%EB%A1%9C5%EA%B8%B8%2015&t=m&z=16&output=embed"></iframe>';
+      }
+    }
+
+    /* ===== D-DAY ===== */
+    const target = new Date("2025-12-13T14:00:00+09:00").getTime();
+    const dtext = document.getElementById('dtext');
+    const el = {
+      d: document.getElementById('cd-days'),
+      h: document.getElementById('cd-hours'),
+      m: document.getElementById('cd-mins'),
+      s: document.getElementById('cd-secs'),
+    };
+    function tick(){
+      const now = Date.now();
+      let diff = Math.max(0, target - now);
+      const sec = Math.floor(diff/1000);
+      const d = Math.floor(sec/86400);
+      const h = Math.floor((sec%86400)/3600);
+      const m = Math.floor((sec%3600)/60);
+      const s = sec%60;
+      el.d.textContent = d; el.h.textContent = h; el.m.textContent = m; el.s.textContent = s;
+      if (dtext) dtext.textContent = d + "일";
+    }
+    tick(); setInterval(tick, 1000);
+
+    /* ===== 복사 버튼 ===== */
+    document.addEventListener('click', (e)=>{
+      const btn = e.target.closest('.copy');
+      if(!btn) return;
+      const text = btn.dataset.copy || btn.textContent.trim();
+      navigator.clipboard.writeText(text).then(()=>{
+        const prev = btn.textContent;
+        btn.textContent = '복사됨';
+        setTimeout(()=>btn.textContent = prev, 1200);
+      });
+    });
+
+    /* ===== 캘린더(.ics) 생성 ===== */
+    const icsBtn = document.getElementById('icsBtn');
+    if(icsBtn){
+      const ics = `BEGIN:VCALENDAR
+  VERSION:2.0
+  PRODID:-//Wedding Invite//KR
+  CALSCALE:GREGORIAN
+  METHOD:PUBLISH
+  BEGIN:VEVENT
+  UID:wedding-sangmin-jinhee-20251213@example
+  DTSTAMP:20250101T000000Z
+  SUMMARY:상민 ♥ 진희 결혼식
+  LOCATION:더에스비웨딩컨벤션 3층, 서울 동작구 보라매로5길 15
+  DESCRIPTION:상민 ♥ 진희 결혼식
+  DTSTART:20251213T050000Z
+  DTEND:20251213T070000Z
+  BEGIN:VALARM
+  TRIGGER:-P1D
+  ACTION:DISPLAY
+  DESCRIPTION:내일은 결혼식
+  END:VALARM
+  BEGIN:VALARM
+  TRIGGER:-PT120M
+  ACTION:DISPLAY
+  DESCRIPTION:2시간 뒤 결혼식
+  END:VALARM
+  END:VEVENT
+  END:VCALENDAR`;
+      const blob = new Blob([ics], {type:"text/calendar;charset=utf-8"});
+      icsBtn.href = URL.createObjectURL(blob);
+    }
+  });
+  </script>
+
+</body>
+</html>
