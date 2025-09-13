@@ -158,19 +158,8 @@
 
   /* gallery */
   .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-  /* 추가: picture 자체가 3:4 박스가 되게 하고 블록화 */
-  .gallery picture { 
-    display:block;
-    aspect-ratio: 3 / 4;
-  }
-
-  /* 수정: 이미지는 래퍼 박스를 가득 채우기 */
-  .gallery picture > img{
-    width:100%;
-    height:100%;        /* <- 추가 */
-    object-fit:cover;   /* 이미 있음 */
-    display:block;      /* 인라인 간격 제거 */
-  }
+  .gallery picture { display:block; aspect-ratio: 3 / 4; }
+  .gallery picture > img{ width:100%; height:100%; object-fit:cover; display:block; }
   .gallery img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;cursor:pointer}
   .no-save{ -webkit-user-drag: none; user-select:none; -webkit-user-select:none }
   .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:50}
@@ -413,11 +402,14 @@
       </div>
     </section>
 
-    <!-- ICS -->
+    <!-- ICS / 캘린더 버튼 -->
     <section class="center" style="margin-top:12px">
-      <a class="btn" id="icsBtn" download="상민진희_결혼식_2025-12-13.ics" href="#">캘린더에 추가</a>
-      <p class="small muted" style="margin-top:6px">하루 전 & 2시간 전 알림 포함</p>
+      <div class="btns" style="justify-content:center">
+        <a class="btn" id="btnAppleSamsung" href="#">아이폰/삼성 캘린더로 추가</a>
+        <a class="btn ghost" id="btnGoogle" target="_blank" rel="noopener">구글 캘린더로 열기</a>
+      </div>
     </section>
+
   </main>
 
   <footer>
@@ -558,9 +550,17 @@
       if(e.target.closest('#gallery') || e.target.closest('#lightbox')) e.preventDefault();
     });
 
-    /* ===== 캘린더(.ics) ===== */
-    const icsBtn = document.getElementById('icsBtn');
-    if(icsBtn){
+    /* ===== 캘린더 추가(아이폰/삼성/구글) ===== */
+    (function(){
+      // 이벤트 정보
+      const title = '상민 ♥ 진희 결혼식';
+      const locationTxt = '더에스비웨딩컨벤션, 서울 동작구 보라매로5길 15';
+      const details = '상민 ♥ 진희 결혼식';
+      // 2025-12-13 14:00 KST ~ 16:00 KST = 05:00Z ~ 07:00Z
+      const dtStartZ = '20251213T050000Z';
+      const dtEndZ   = '20251213T070000Z';
+
+      // ICS 텍스트 (알림 포함)
       const ics = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Wedding Invite//KR
@@ -569,11 +569,11 @@ METHOD:PUBLISH
 BEGIN:VEVENT
 UID:wedding-sangmin-jinhee-20251213@example
 DTSTAMP:20250101T000000Z
-SUMMARY:상민 ♥ 진희 결혼식
-LOCATION:더에스비웨딩컨벤션, 서울 동작구 보라매로5길 15
-DESCRIPTION:상민 ♥ 진희 결혼식
-DTSTART:20251213T050000Z
-DTEND:20251213T070000Z
+SUMMARY:${title}
+LOCATION:${locationTxt}
+DESCRIPTION:${details}
+DTSTART:${dtStartZ}
+DTEND:${dtEndZ}
 BEGIN:VALARM
 TRIGGER:-P1D
 ACTION:DISPLAY
@@ -586,9 +586,46 @@ DESCRIPTION:2시간 뒤 결혼식
 END:VALARM
 END:VEVENT
 END:VCALENDAR`;
-      const blob = new Blob([ics], {type:"text/calendar;charset=utf-8"});
-      icsBtn.href = URL.createObjectURL(blob);
-    }
+
+      // Blob URL
+      const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+      const blobUrl = URL.createObjectURL(blob);
+      const fileName = '상민진희_결혼식_2025-12-13.ics';
+
+      // 구글 캘린더 템플릿 URL
+      const gcalParams = new URLSearchParams({
+        action: 'TEMPLATE',
+        text: title,
+        details,
+        location: locationTxt,
+        dates: `${dtStartZ}/${dtEndZ}`
+      });
+      const gcalUrl = `https://calendar.google.com/calendar/render?${gcalParams.toString()}`;
+
+      // 버튼 요소
+      const btnAppleSamsung = document.getElementById('btnAppleSamsung');
+      const btnGoogle       = document.getElementById('btnGoogle');
+      const btnIcsDownload  = document.getElementById('btnIcsDownload');
+
+      // 백업용 다운로드 링크 설정
+      if (btnIcsDownload){
+        btnIcsDownload.href = blobUrl;
+        btnIcsDownload.setAttribute('download', fileName);
+      }
+
+      // 아이폰/삼성: ICS 바로 열기 시도
+      if (btnAppleSamsung){
+        btnAppleSamsung.addEventListener('click', (e)=>{
+          e.preventDefault();
+          window.location.href = blobUrl; // iOS/삼성은 캘린더로 전달되는 경우가 많음
+        });
+      }
+
+      // 구글 캘린더 버튼
+      if (btnGoogle) {
+        btnGoogle.href = gcalUrl;
+      }
+    })();
   });
   </script>
 
