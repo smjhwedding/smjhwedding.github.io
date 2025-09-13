@@ -54,6 +54,8 @@
     --font-fancy: "Hakgyoansim Geurimilgi", "BM JUA", "SUIT Variable", system-ui, -apple-system, "Noto Sans KR", sans-serif;
   }
   *{box-sizing:border-box}
+  html{font-size:16px}
+  @media (max-width: 759px){ html{ font-size:17.5px } }
   html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased}
   a{color:inherit;text-decoration:none}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:18px}
@@ -69,16 +71,18 @@
   }
   .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.30) 0%,rgba(0,0,0,.55) 60%,rgba(0,0,0,.78) 100%); z-index:1}
   .hero-inner{position:relative;z-index:2;padding:42px 18px 28px}
-  .names{font-family:var(--font-fancy);font-weight:400;font-size:36px;letter-spacing:.02em}
+  .names{font-family:var(--font-fancy);font-weight:400;font-size:2.3rem;letter-spacing:.02em}
+  @media (max-width:759px){ .names{ font-size:2.5rem } }
   .amp{color:var(--accent)}
   .date{margin-top:12px;line-height:1.4}
-  .date .d1{display:block;font-size:16px;opacity:.98}
-  .date .d2{display:block;margin-top:4px;font-size:15px;opacity:.95}
+  .date .d1{display:block;font-size:1rem;opacity:.98}
+  .date .d2{display:block;margin-top:4px;font-size:.95rem;opacity:.95}
+  @media (max-width:759px){ .date .d1{font-size:1.05rem} .date .d2{font-size:1rem} }
   .dday-badge{
     position:absolute;top:10px;left:50%;transform:translateX(-50%);
     z-index:3;
     background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.45);
-    padding:6px 10px;border-radius:999px;font-size:12px;backdrop-filter: blur(4px);
+    padding:6px 10px;border-radius:999px;font-size:.78rem;backdrop-filter: blur(4px);
     color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.35);
   }
 
@@ -111,8 +115,9 @@
   /* ===== 공통 ===== */
   h2.section-title{
     text-align:center;
-    margin:28px 0 12px; color:var(--accent); font-family:var(--font-fancy); font-weight:400; letter-spacing:.02em;font-size:18px;
+    margin:28px 0 12px; color:var(--accent); font-family:var(--font-fancy); font-weight:400; letter-spacing:.02em;font-size:1.15rem;
   }
+  @media (max-width:759px){ h2.section-title{ font-size:1.2rem } }
   .card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin:14px 0;}
   .grid{display:grid;gap:12px}
   @media (min-width: 760px){
@@ -121,11 +126,12 @@
   }
   .muted{color:var(--muted)}
   .center{text-align:center}
-  .small{font-size:13px}
+  .small{font-size:.9rem}
+  @media (max-width:759px){ .small{ font-size: .98rem } }
   .btn{
     display:inline-flex;align-items:center;justify-content:center;gap:8px;
     padding:12px 14px;border-radius:10px;background:var(--accent);color:#313131;font-weight:700;border:none;cursor:pointer;
-    box-shadow:0 6px 18px rgba(237,172,177,.35);font-size:14px;
+    box-shadow:0 6px 18px rgba(237,172,177,.35);font-size:.92rem;
   }
   .btn.ghost{background:#fff;border:1px solid #eee;box-shadow:none}
   .btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
@@ -133,11 +139,11 @@
 
   /* details */
   details{border-radius:12px;padding:0;overflow:hidden;border:none}
-  details summary{cursor:pointer;list-style:none;font-weight:800;display:flex;align-items:center;justify-content:space-between;font-size:14px;padding:14px 16px;}
+  details summary{cursor:pointer;list-style:none;font-weight:800;display:flex;align-items:center;justify-content:space-between;font-size:.95rem;padding:14px 16px;}
   details summary::marker{display:none}
   details .rows{padding:12px 16px 16px}
   .row{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap}
-  .copy{font-size:12px;border:1px dashed #7774;border-radius:999px;padding:4px 8px;cursor:pointer}
+  .copy{font-size:.78rem;border:1px dashed #7774;border-radius:999px;padding:4px 8px;cursor:pointer}
   details.groom{ background: #eaf6ff; border:1px solid #d5ecff }
   details.bride{ background: #fff0f5; border:1px solid #ffe1ea }
 
@@ -152,9 +158,9 @@
 
   /* countdown */
   .countdown{display:flex;justify-content:center;gap:8px;margin-top:8px}
-  .cd-box{width:68px;height:68px;border-radius:12px;background:#fff;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center}
-  .cd-number{font-size:20px;font-weight:800}
-  .cd-label{font-size:11px;color:var(--muted)}
+  .cd-box{width:72px;height:72px;border-radius:12px;background:#fff;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .cd-number{font-size:1.2rem;font-weight:800}
+  .cd-label{font-size:.7rem;color:var(--muted)}
 
   /* gallery */
   .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
@@ -175,17 +181,17 @@
 
   /* interview */
   .interview{padding:18px 14px;background:#fff7fa;border-radius:14px}
-  .interview .title{font-family:var(--font-fancy);letter-spacing:.02em;color:var(--accent);text-align:center;font-size:22px}
-  .interview .subtitle{font-size:13px;text-align:center;margin:8px 0 16px}
+  .interview .title{font-family:var(--font-fancy);letter-spacing:.02em;color:var(--accent);text-align:center;font-size:1.35rem}
+  .interview .subtitle{font-size:.85rem;text-align:center;margin:8px 0 16px}
   .bubble_container{display:grid;gap:16px;padding:0 10px}
   .bubble_box{display:flex;flex-direction:column;gap:8px;max-width:640px;margin:0}
   .bubble_box.left{align-items:flex-start}.bubble_box.right{align-items:flex-end}
-  .bubble_box .name{font-weight:800;font-size:15px;color:#888}
+  .bubble_box .name{font-weight:800;font-size:.95rem;color:#888}
   .bubble_wrapper{position:relative;max-width:min(100%,640px)}
-  .bubble_text{display:inline-block;border-radius:16px;padding:14px 18px;font-size:16px;line-height:1.68;box-shadow:var(--shadow)}
+  .bubble_text{display:inline-block;border-radius:16px;padding:14px 18px;font-size:1rem;line-height:1.68;box-shadow:var(--shadow)}
   .left .bubble_text{background:#eaf6ff}
   .right .bubble_text{background:var(--accent);color:#313131}
-  .inter-q{font-size:15px;margin:20px 0 10px;text-align:center;font-weight:700}
+  .inter-q{font-size:.98rem;margin:20px 0 10px;text-align:center;font-weight:700}
 
   /* reveal */
   #interview .bubble_container { justify-items: start; }
@@ -198,8 +204,16 @@
   .reveal { opacity: 0; transform: translateY(26px); transition: opacity .55s ease, transform .55s ease; }
   .reveal.show { opacity: 1; transform: none; }
 
+  /* INVITATION 전용 확대 (모바일 우선) */
+  #invitation .poem{ font-size:1rem; line-height:1.9 }
+  #invitation .small{ font-size:1rem }
+  @media (min-width:760px){
+    #invitation .poem{ font-size:.98rem }
+    #invitation .small{ font-size:.95rem }
+  }
+
   .poem{ white-space: pre-line; }
-  footer{padding:28px 0 16px;text-align:center;color:var(--muted);font-size:12px}
+  footer{padding:28px 0 16px;text-align:center;color:var(--muted);font-size:.78rem}
   </style>
 </head>
 <body>
@@ -246,7 +260,7 @@
 
   <main class="wrap">
     <!-- INVITATION -->
-    <section class="card center">
+    <section id="invitation" class="card center">
       <h2 class="section-title">INVITATION</h2>
       <p class="small poem">봄처럼 포근하고 여름처럼 뜨겁고 
 가을처럼 충만하고 겨울처럼 설레는 사람을 만났습니다.
@@ -476,6 +490,7 @@
         다운로드가 자동으로 시작되지 않으면
         <a id="btnIcsDownload" href="#" download="상민진희_결혼식_2025-12-13.ics">ICS 파일 직접 다운로드</a>
       </p>
+      <p class="small muted" id="dlHint" style="margin-top:4px; display:none"></p>
     </section>
 
   </main>
@@ -628,28 +643,16 @@
         const dtStartZ = '20251213T050000Z';
         const dtEndZ   = '20251213T070000Z';
 
-        // ICS 텍스트 (알림 포함 가능하지만 인앱 일부에서 문제될 수 있어 최소 필드만 사용)
-        const ics = `BEGIN:VCALENDAR
-    VERSION:2.0
-    PRODID:-//Wedding Invite//KR
-    CALSCALE:GREGORIAN
-    METHOD:PUBLISH
-    BEGIN:VEVENT
-    UID:wedding-sangmin-jinhee-20251213@example
-    SUMMARY:${title}
-    LOCATION:${locationTxt}
-    DESCRIPTION:${details}
-    DTSTART:${dtStartZ}
-    DTEND:${dtEndZ}
-    END:VEVENT
-    END:VCALENDAR`;
+        // ICS 텍스트
+        const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Wedding Invite//KR\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\nBEGIN:VEVENT\nUID:wedding-sangmin-jinhee-20251213@example\nSUMMARY:${title}\nLOCATION:${locationTxt}\nDESCRIPTION:${details}\nDTSTART:${dtStartZ}\nDTEND:${dtEndZ}\nEND:VEVENT\nEND:VCALENDAR`;
 
         // 요소
         const btnAppleSamsung = document.getElementById('btnAppleSamsung');
         const btnGoogle       = document.getElementById('btnGoogle');
         const btnIcsDownload  = document.getElementById('btnIcsDownload');
+        const dlHint          = document.getElementById('dlHint');
 
-        // 구글 캘린더 링크
+        // 구글 캘린더 링크 (즉시 생성 템플릿)
         const gcalParams = new URLSearchParams({
           action: 'TEMPLATE',
           text: title,
@@ -665,6 +668,8 @@
         const isIOS     = /iPhone|iPad|iPod/i.test(ua);
         const isAndroid = /Android/i.test(ua);
         const isKakao   = /KAKAOTALK/i.test(ua); // 카톡 인앱 브라우저 여부
+        const isSamsung = /SamsungBrowser/i.test(ua);
+        const isChrome  = /Chrome\//i.test(ua) && !isSamsung;
 
         // 공통: 백업 다운로드 링크(누르면 그냥 파일 저장)
         (function setBackupLink(){
@@ -681,52 +686,40 @@
           try{
             const tip = document.createElement('div');
             tip.textContent = msg;
-            tip.style.cssText = 'position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:rgba(0,0,0,.85);color:#fff;padding:10px 12px;border-radius:10px;font-size:12px;z-index:9999;max-width:92vw;text-align:center';
+            tip.style.cssText = 'position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:rgba(0,0,0,.85);color:#fff;padding:10px 12px;border-radius:10px;font-size:12px;z-index:9999;max-width:92vw;text-align:center;white-space:pre-line';
             document.body.appendChild(tip);
-            setTimeout(()=> tip.remove(), 3600);
+            setTimeout(()=> tip.remove(), 4200);
           }catch(_){}
         }
 
-        // iOS용: 카카오 인앱 브라우저에선 blob/window.open이 먹히지 않는 경우가 많음
-        // → data: URL을 _self 로 여는 방식으로 “캘린더에 추가” 모달을 띄우는 우회.
+        // iOS용: 카카오 인앱 브라우저에선 blob/window.open이 막히는 경우 우회
         function openICSOnIOS_Kakao(icsText){
           const dataUrl = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(icsText);
-          // a 태그 클릭 + location.href 둘 다 시도 (인앱에서 한쪽만 되는 경우 대비)
           const a = document.createElement('a');
-          a.href = dataUrl;
-          a.rel = 'noopener';
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          setTimeout(()=>{ try{ document.body.removeChild(a); }catch(_){} }, 0);
-          // 추가 시도
+          a.href = dataUrl; a.rel = 'noopener'; a.style.display = 'none';
+          document.body.appendChild(a); a.click(); setTimeout(()=>{ try{ a.remove(); }catch(_){} }, 0);
           setTimeout(()=>{ window.location.href = dataUrl; }, 120);
-          // 그래도 안되면 사파리로 열기 안내
           setTimeout(()=>{
             toast('캘린더가 안 열리면 우측 상단 ••• → “사파리로 열기” 후 다시 시도해주세요.');
           }, 1600);
         }
 
-        // iOS 사파리(혹은 인앱이 아닌 브라우저)용: blob + window.open 으로 잘 열림
+        // iOS 일반 브라우저: 새 탭으로 열어 "캘린더에 추가" 모달 유도
         function openICSOnIOS_Normal(icsText){
           const blob = new Blob([icsText], { type: 'text/calendar;charset=utf-8' });
           const blobUrl = URL.createObjectURL(blob);
-          // 새 탭으로 열어 “캘린더에 추가” 모달 유도
           window.open(blobUrl, '_blank');
           setTimeout(()=> URL.revokeObjectURL(blobUrl), 10000);
         }
 
-        // Android(삼성 포함): 인앱 브라우저에선 자동 실행 불가 → 파일 저장 후 알림 탭해야 캘린더로 열림
+        // Android(삼성/크롬): 인앱 브라우저에선 자동 실행 어려움 → 파일 저장 후 사용자가 탭
         function saveICSOnAndroid(icsText){
           try{
             const blob = new Blob([icsText], { type: 'text/calendar;charset=utf-8' });
             const blobUrl = URL.createObjectURL(blob);
             const a = document.createElement('a');
-            a.href = blobUrl;
-            a.download = '상민진희_결혼식_2025-12-13.ics';
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
+            a.href = blobUrl; a.download = '상민진희_결혼식_2025-12-13.ics';
+            document.body.appendChild(a); a.click(); a.remove();
             setTimeout(()=> URL.revokeObjectURL(blobUrl), 10000);
           }catch(_){
             const dataUrl = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(icsText);
@@ -734,7 +727,23 @@
             a.href = dataUrl; a.download = '상민진희_결혼식_2025-12-13.ics';
             document.body.appendChild(a); a.click(); a.remove();
           }
-          toast('다운로드가 시작되었어요. 알림 또는 다운로드 목록에서 .ics 파일을 탭하면 캘린더로 열립니다.');
+
+          // 안내 문구(다운로드 위치)
+          const hint = isKakao
+            ? '다운로드가 시작되었어요. 상단 알림을 탭하거나\n카카오톡 우측 상단 메뉴(⋮) → 다운로드 관리에서 확인해 주세요.'
+            : '다운로드가 시작되었어요. 상단 알림 또는 "내 파일/Files → Download"에서 \n상민진희_결혼식_2025-12-13.ics 파일을 탭해 주세요.';
+          toast(hint);
+          if (dlHint) {
+            dlHint.style.display = 'block';
+            dlHint.textContent = isAndroid ? '안드로이드: 알림 영역 또는 내 파일 앱 > Download에서 .ics 파일을 탭하면 캘린더가 열립니다.' : '';
+          }
+        }
+
+        // 추가: 안드로이드 카톡 인앱에서 바로 구글캘린더로 여는 선택지도 제공
+        function maybeOfferGoogleCalendar(){
+          if (isAndroid && isKakao && btnGoogle){
+            toast('구글 캘린더로 바로 추가하시려면 위의 "구글 캘린더로 열기" 버튼을 이용해 주세요.');
+          }
         }
 
         if (btnAppleSamsung){
@@ -743,17 +752,16 @@
 
             if (isIOS){
               if (isKakao){
-                // iOS + 카카오 인앱: data:URL 방식 우회
                 openICSOnIOS_Kakao(ics);
               } else {
-                // iOS 일반 브라우저
                 openICSOnIOS_Normal(ics);
               }
               return;
             }
 
-            // 안드로이드(삼성 포함): 자동 추가 불가 → 저장 후 사용자가 탭
+            // 안드로이드(삼성/크롬/카카오)
             saveICSOnAndroid(ics);
+            maybeOfferGoogleCalendar();
           });
         }
       })();
