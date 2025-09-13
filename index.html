@@ -13,7 +13,6 @@
   <!-- 내 폰트 프리로드 (루트 경로) -->
   <link rel="preload" href="/HakgyoansimGeurimilgiOTFR.otf" as="font" type="font/otf" crossorigin>
   <link rel="preload" href="/HakgyoansimGeurimilgiTTFR.ttf" as="font" type="font/ttf" crossorigin>
-  <!-- 히어로 이미지 프리로드(프로덕션에서만 주입; 로컬은 JPG 폴백 사용) -->
 
   <!-- 파비콘(선택) -->
   <link rel="icon" href="/favicon.ico" />
@@ -488,7 +487,8 @@
       </div>
       <p class="small muted" style="margin-top:6px">
         다운로드가 자동으로 시작되지 않으면
-        <a id="btnIcsDownload" href="#" download="상민진희_결혼식_2025-12-13.ics">ICS 파일 직접 다운로드</a>
+        <!-- JS 미작동 대비: 기본 href도 호스팅 파일로 설정 -->
+        <a id="btnIcsDownload" href="https://smjhwedding.github.io/sangmin-jinhee-wedding-2025-12-13.ics" download="sangmin-jinhee-wedding-2025-12-13.ics">ICS 파일 직접 다운로드</a>
       </p>
       <p class="small muted" id="dlHint" style="margin-top:4px; display:none"></p>
     </section>
@@ -635,136 +635,116 @@
 
     /* ===== 캘린더 추가(아이폰/삼성/구글) ===== */
     (function(){
-        // 이벤트 정보
-        const title = '상민 ♥ 진희 결혼식';
-        const locationTxt = '더에스비웨딩컨벤션, 서울 동작구 보라매로5길 15';
-        const details = '상민 ♥ 진희 결혼식';
-        // 2025-12-13 14:00 KST ~ 16:00 KST = 05:00Z ~ 07:00Z
-        const dtStartZ = '20251213T050000Z';
-        const dtEndZ   = '20251213T070000Z';
+      // 이벤트 정보
+      const title = '상민 ♥ 진희 결혼식';
+      const locationTxt = '더에스비웨딩컨벤션, 서울 동작구 보라매로5길 15';
+      const details = '상민 ♥ 진희 결혼식';
+      // 2025-12-13 14:00 KST ~ 16:00 KST = 05:00Z ~ 07:00Z
+      const dtStartZ = '20251213T050000Z';
+      const dtEndZ   = '20251213T070000Z';
 
-        // ICS 텍스트
-        const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Wedding Invite//KR\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\nBEGIN:VEVENT\nUID:wedding-sangmin-jinhee-20251213@example\nSUMMARY:${title}\nLOCATION:${locationTxt}\nDESCRIPTION:${details}\nDTSTART:${dtStartZ}\nDTEND:${dtEndZ}\nEND:VEVENT\nEND:VCALENDAR`;
+      // 프로덕션에 호스팅된 ICS 파일(영문 파일명)
+      const isProd = location.hostname === 'smjhwedding.github.io';
+      const icsUrl = isProd
+        ? 'https://smjhwedding.github.io/sangmin-jinhee-wedding-2025-12-13.ics'
+        : '';
 
-        // 요소
-        const btnAppleSamsung = document.getElementById('btnAppleSamsung');
-        const btnGoogle       = document.getElementById('btnGoogle');
-        const btnIcsDownload  = document.getElementById('btnIcsDownload');
-        const dlHint          = document.getElementById('dlHint');
+      // 로컬/미배포 환경 폴백(메모리에서 생성)
+      const ics = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Wedding Invite//KR
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:wedding-sangmin-jinhee-20251213@example
+SUMMARY:${title}
+LOCATION:${locationTxt}
+DESCRIPTION:${details}
+DTSTART:${dtStartZ}
+DTEND:${dtEndZ}
+END:VEVENT
+END:VCALENDAR`;
 
-        // 구글 캘린더 링크 (즉시 생성 템플릿)
-        const gcalParams = new URLSearchParams({
-          action: 'TEMPLATE',
-          text: title,
-          details,
-          location: locationTxt,
-          dates: `${dtStartZ}/${dtEndZ}`
-        });
-        const gcalUrl = `https://calendar.google.com/calendar/render?${gcalParams.toString()}`;
-        if (btnGoogle) btnGoogle.href = gcalUrl;
+      // 요소
+      const btnAppleSamsung = document.getElementById('btnAppleSamsung');
+      const btnGoogle       = document.getElementById('btnGoogle');
+      const btnIcsDownload  = document.getElementById('btnIcsDownload');
+      const dlHint          = document.getElementById('dlHint');
 
-        // UA
-        const ua = navigator.userAgent || '';
-        const isIOS     = /iPhone|iPad|iPod/i.test(ua);
-        const isAndroid = /Android/i.test(ua);
-        const isKakao   = /KAKAOTALK/i.test(ua); // 카톡 인앱 브라우저 여부
-        const isSamsung = /SamsungBrowser/i.test(ua);
-        const isChrome  = /Chrome\//i.test(ua) && !isSamsung;
+      // 구글 캘린더 링크
+      const gcalParams = new URLSearchParams({
+        action:'TEMPLATE', text:title, details, location:locationTxt, dates:`${dtStartZ}/${dtEndZ}`
+      });
+      const gcalUrl = `https://calendar.google.com/calendar/render?${gcalParams.toString()}`;
+      if (btnGoogle) btnGoogle.href = gcalUrl;
 
-        // 공통: 백업 다운로드 링크(누르면 그냥 파일 저장)
-        (function setBackupLink(){
+      // UA
+      const ua = navigator.userAgent || '';
+      const isAndroid = /Android/i.test(ua);
+      const isKakao   = /KAKAOTALK/i.test(ua);
+
+      function toast(msg){
+        try{
+          const tip = document.createElement('div');
+          tip.textContent = msg;
+          tip.style.cssText = 'position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:rgba(0,0,0,.85);color:#fff;padding:10px 12px;border-radius:10px;font-size:12px;z-index:9999;max-width:92vw;text-align:center;white-space:pre-line';
+          document.body.appendChild(tip);
+          setTimeout(()=> tip.remove(), 4200);
+        }catch(_){}
+      }
+
+      // 백업 다운로드 링크: 프로덕션이면 호스팅 파일, 아니면 blob
+      (function setDownloadLink(){
+        if (!btnIcsDownload) return;
+        if (isProd && icsUrl){
+          btnIcsDownload.href = icsUrl;
+          btnIcsDownload.setAttribute('download','sangmin-jinhee-wedding-2025-12-13.ics');
+        } else {
           try{
-            if (!btnIcsDownload) return;
-            const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+            const blob = new Blob([ics], { type:'text/calendar;charset=utf-8' });
             const blobUrl = URL.createObjectURL(blob);
             btnIcsDownload.href = blobUrl;
-            btnIcsDownload.setAttribute('download', '상민진희_결혼식_2025-12-13.ics');
+            btnIcsDownload.setAttribute('download','sangmin-jinhee-wedding-2025-12-13.ics');
           }catch(_){}
-        })();
-
-        function toast(msg){
-          try{
-            const tip = document.createElement('div');
-            tip.textContent = msg;
-            tip.style.cssText = 'position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:rgba(0,0,0,.85);color:#fff;padding:10px 12px;border-radius:10px;font-size:12px;z-index:9999;max-width:92vw;text-align:center;white-space:pre-line';
-            document.body.appendChild(tip);
-            setTimeout(()=> tip.remove(), 4200);
-          }catch(_){}
-        }
-
-        // iOS용: 카카오 인앱 브라우저에선 blob/window.open이 막히는 경우 우회
-        function openICSOnIOS_Kakao(icsText){
-          const dataUrl = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(icsText);
-          const a = document.createElement('a');
-          a.href = dataUrl; a.rel = 'noopener'; a.style.display = 'none';
-          document.body.appendChild(a); a.click(); setTimeout(()=>{ try{ a.remove(); }catch(_){} }, 0);
-          setTimeout(()=>{ window.location.href = dataUrl; }, 120);
-          setTimeout(()=>{
-            toast('캘린더가 안 열리면 우측 상단 ••• → “사파리로 열기” 후 다시 시도해주세요.');
-          }, 1600);
-        }
-
-        // iOS 일반 브라우저: 새 탭으로 열어 "캘린더에 추가" 모달 유도
-        function openICSOnIOS_Normal(icsText){
-          const blob = new Blob([icsText], { type: 'text/calendar;charset=utf-8' });
-          const blobUrl = URL.createObjectURL(blob);
-          window.open(blobUrl, '_blank');
-          setTimeout(()=> URL.revokeObjectURL(blobUrl), 10000);
-        }
-
-        // Android(삼성/크롬): 인앱 브라우저에선 자동 실행 어려움 → 파일 저장 후 사용자가 탭
-        function saveICSOnAndroid(icsText){
-          try{
-            const blob = new Blob([icsText], { type: 'text/calendar;charset=utf-8' });
-            const blobUrl = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = blobUrl; a.download = '상민진희_결혼식_2025-12-13.ics';
-            document.body.appendChild(a); a.click(); a.remove();
-            setTimeout(()=> URL.revokeObjectURL(blobUrl), 10000);
-          }catch(_){
-            const dataUrl = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(icsText);
-            const a = document.createElement('a');
-            a.href = dataUrl; a.download = '상민진희_결혼식_2025-12-13.ics';
-            document.body.appendChild(a); a.click(); a.remove();
-          }
-
-          // 안내 문구(다운로드 위치)
-          const hint = isKakao
-            ? '다운로드가 시작되었어요. 상단 알림을 탭하거나\n카카오톡 우측 상단 메뉴(⋮) → 다운로드 관리에서 확인해 주세요.'
-            : '다운로드가 시작되었어요. 상단 알림 또는 "내 파일/Files → Download"에서 \n상민진희_결혼식_2025-12-13.ics 파일을 탭해 주세요.';
-          toast(hint);
-          if (dlHint) {
-            dlHint.style.display = 'block';
-            dlHint.textContent = isAndroid ? '안드로이드: 알림 영역 또는 내 파일 앱 > Download에서 .ics 파일을 탭하면 캘린더가 열립니다.' : '';
-          }
-        }
-
-        // 추가: 안드로이드 카톡 인앱에서 바로 구글캘린더로 여는 선택지도 제공
-        function maybeOfferGoogleCalendar(){
-          if (isAndroid && isKakao && btnGoogle){
-            toast('구글 캘린더로 바로 추가하시려면 위의 "구글 캘린더로 열기" 버튼을 이용해 주세요.');
-          }
-        }
-
-        if (btnAppleSamsung){
-          btnAppleSamsung.addEventListener('click', (e)=>{
-            e.preventDefault();
-
-            if (isIOS){
-              if (isKakao){
-                openICSOnIOS_Kakao(ics);
-              } else {
-                openICSOnIOS_Normal(ics);
-              }
-              return;
-            }
-
-            // 안드로이드(삼성/크롬/카카오)
-            saveICSOnAndroid(ics);
-            maybeOfferGoogleCalendar();
-          });
         }
       })();
+
+      function openHostedICS(){
+        if (!icsUrl) return false;
+        window.open(icsUrl, '_blank'); // iOS: 등록화면, Android: 다운로드/열기
+        return true;
+      }
+
+      function openIcsLocal(){
+        try{
+          const blob = new Blob([ics], { type:'text/calendar;charset=utf-8' });
+          const url = URL.createObjectURL(blob);
+          window.open(url, '_blank');
+          setTimeout(()=> URL.revokeObjectURL(url), 10000);
+        }catch(_){}
+      }
+
+      if (btnAppleSamsung){
+        btnAppleSamsung.addEventListener('click', (e)=>{
+          e.preventDefault();
+          if (isProd && icsUrl){
+            openHostedICS();
+            if (isAndroid){
+              const msg = isKakao
+                ? '다운로드가 시작되거나 새 창이 열립니다. 카카오톡 우측 상단(⋮) → 다운로드 관리에서 .ics 파일을 탭해 주세요.'
+                : '다운로드가 시작되거나 새 창이 열립니다. 알림 또는 내 파일 > Download에서 .ics 파일을 탭해 주세요.';
+              toast(msg);
+              if (dlHint){
+                dlHint.style.display='block';
+                dlHint.textContent='안드로이드: 알림/다운로드 목록에서 .ics 파일을 탭하면 캘린더로 열립니다.';
+              }
+            }
+          } else {
+            openIcsLocal();
+          }
+        });
+      }
+    })();
   });
   </script>
 
