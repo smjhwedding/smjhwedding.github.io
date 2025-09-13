@@ -472,6 +472,10 @@
         <a class="btn" id="btnAppleSamsung" href="#">아이폰/삼성 캘린더로 추가</a>
         <a class="btn ghost" id="btnGoogle" target="_blank" rel="noopener">구글 캘린더로 열기</a>
       </div>
+      <p class="small muted" style="margin-top:6px">
+        다운로드가 자동으로 시작되지 않으면
+        <a id="btnIcsDownload" href="#" download="상민진희_결혼식_2025-12-13.ics">ICS 파일 직접 다운로드</a>
+      </p>
     </section>
 
   </main>
@@ -651,10 +655,11 @@ END:VALARM
 END:VEVENT
 END:VCALENDAR`;
 
-      // Blob URL
-      const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
-      const blobUrl = URL.createObjectURL(blob);
+      // 공통 준비물
       const fileName = '상민진희_결혼식_2025-12-13.ics';
+      const btnAppleSamsung = document.getElementById('btnAppleSamsung');
+      const btnGoogle       = document.getElementById('btnGoogle');
+      const btnIcsDownload  = document.getElementById('btnIcsDownload');
 
       // 구글 캘린더 템플릿 URL
       const gcalParams = new URLSearchParams({
@@ -665,29 +670,70 @@ END:VCALENDAR`;
         dates: `${dtStartZ}/${dtEndZ}`
       });
       const gcalUrl = `https://calendar.google.com/calendar/render?${gcalParams.toString()}`;
+      if (btnGoogle) btnGoogle.href = gcalUrl;
 
-      // 버튼 요소
-      const btnAppleSamsung = document.getElementById('btnAppleSamsung');
-      const btnGoogle       = document.getElementById('btnGoogle');
-      const btnIcsDownload  = document.getElementById('btnIcsDownload');
+      // iOS / Android 판별
+      const ua = navigator.userAgent.toLowerCase();
+      const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+      const isAndroid = /android/.test(ua);
 
-      // 백업용 다운로드 링크 설정(있다면)
-      if (btnIcsDownload){
-        btnIcsDownload.href = blobUrl;
-        btnIcsDownload.setAttribute('download', fileName);
+      function downloadICSByAnchor(dataStr, name){
+        const a = document.createElement('a');
+        a.href = dataStr;
+        a.download = name; // 강제 다운로드
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
       }
 
-      // 아이폰/삼성: ICS 바로 열기 시도
+      function openICSForIOS(icsText){
+        const blob = new Blob([icsText], { type: 'text/calendar;charset=utf-8' });
+        const blobUrl = URL.createObjectURL(blob);
+        window.open(blobUrl, '_blank'); // 새 탭 → 캘린더로 전달되거나 공유시트
+        setTimeout(()=> URL.revokeObjectURL(blobUrl), 10000);
+      }
+
+      // 백업용 직접 다운로드 링크 세팅
+      (function setBackupLink(){
+        try{
+          if (!btnIcsDownload) return;
+          const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+          const blobUrl = URL.createObjectURL(blob);
+          btnIcsDownload.href = blobUrl;
+          btnIcsDownload.setAttribute('download', fileName);
+        }catch(_){}
+      })();
+
+      // 메인 버튼 동작
       if (btnAppleSamsung){
         btnAppleSamsung.addEventListener('click', (e)=>{
           e.preventDefault();
-          window.location.href = blobUrl; // iOS/삼성 캘린더로 연결되는 경우가 많음
-        });
-      }
 
-      // 구글 캘린더 버튼
-      if (btnGoogle) {
-        btnGoogle.href = gcalUrl;
+          if (isIOS){
+            openICSForIOS(ics);
+            return;
+          }
+
+          // Android(삼성 포함): 강제 다운로드 → 알림/다운로드 목록에서 탭해서 캘린더로 열기
+          try{
+            const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+            const blobUrl = URL.createObjectURL(blob);
+            downloadICSByAnchor(blobUrl, fileName);
+            setTimeout(()=> URL.revokeObjectURL(blobUrl), 10000);
+          }catch(_){
+            const dataUrl = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
+            downloadICSByAnchor(dataUrl, fileName);
+          }
+
+          // 간단한 안내 토스트
+          try{
+            const tip = document.createElement('div');
+            tip.textContent = '다운로드가 시작되었어요. 알림 또는 다운로드 목록에서 .ics 파일을 탭하면 캘린더가 열립니다.';
+            tip.style.cssText = 'position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:rgba(0,0,0,.8);color:#fff;padding:10px 12px;border-radius:10px;font-size:12px;z-index:9999';
+            document.body.appendChild(tip);
+            setTimeout(()=> tip.remove(), 3200);
+          }catch(_){}
+        });
       }
     })();
   });
