@@ -5,14 +5,15 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
   <title>저희 결혼합니다 | 상민 ♥ 진희</title>
 
-  <!-- OG / 공유 썸네일 -->
+  <!-- OG / 공유 썸네일 (GitHub Pages 절대 경로) -->
   <meta property="og:title" content="저희 결혼합니다" />
   <meta property="og:description" content="2025년 12월 13일 (토) 오후 2시 · 더에스비웨딩컨벤션" />
-  <meta property="og:image" content="./KakaoTalk_20250907_195152669.jpg" />
+  <meta property="og:image" content="https://smjhwedding.github.io/og-1200x630.jpg" />
 
   <!-- 내 폰트 프리로드 (루트 경로) -->
   <link rel="preload" href="/HakgyoansimGeurimilgiOTFR.otf" as="font" type="font/otf" crossorigin>
   <link rel="preload" href="/HakgyoansimGeurimilgiTTFR.ttf" as="font" type="font/ttf" crossorigin>
+  <!-- 히어로 이미지 프리로드(프로덕션에서만 주입; 로컬은 JPG 폴백 사용) -->
 
   <!-- 파비콘(선택) -->
   <link rel="icon" href="/favicon.ico" />
@@ -29,7 +30,6 @@
     src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.1/BMJUA.woff") format("woff");
     font-weight: normal; font-style: normal; font-display: swap;
   }
-  /* 루트 경로 폰트(학교안심 그루밀기) */
   @font-face{
     font-family: "Hakgyoansim Geurimilgi";
     src:
@@ -50,7 +50,6 @@
     --shadow: 0 8px 32px rgba(0,0,0,.06);
     --maxw: 560px;
 
-    /* 본문 기본 폰트, 타이틀/이름 전용 폰트는 사용자 폰트 우선 */
     --font-sans: "SUIT Variable", "Noto Sans KR", Apple SD Gothic Neo, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
     --font-fancy: "Hakgyoansim Geurimilgi", "BM JUA", "SUIT Variable", system-ui, -apple-system, "Noto Sans KR", sans-serif;
   }
@@ -62,17 +61,19 @@
   /* ===== HERO ===== */
   .hero{
     position:relative;overflow:hidden;border-radius:var(--radius);
-    min-height:56vh;background:#000 url("./KakaoTalk_20250907_195152669.jpg") center/cover no-repeat;
+    min-height:56vh;background:#000;
     color:#fff; display:flex; align-items:flex-end; justify-content:center; text-align:center; box-shadow:var(--shadow)
   }
-  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.30) 0%,rgba(0,0,0,.55) 60%,rgba(0,0,0,.78) 100%)}
+  .hero-media{
+    position:absolute; inset:0; z-index:0; display:block; width:100%; height:100%; object-fit:cover;
+  }
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.30) 0%,rgba(0,0,0,.55) 60%,rgba(0,0,0,.78) 100%); z-index:1}
   .hero-inner{position:relative;z-index:2;padding:42px 18px 28px}
   .names{font-family:var(--font-fancy);font-weight:400;font-size:36px;letter-spacing:.02em}
   .amp{color:var(--accent)}
   .date{margin-top:12px;line-height:1.4}
   .date .d1{display:block;font-size:16px;opacity:.98}
   .date .d2{display:block;margin-top:4px;font-size:15px;opacity:.95}
-  /* 상단 D-Day 배지 (히어로 내부 + 흰색 글자) */
   .dday-badge{
     position:absolute;top:10px;left:50%;transform:translateX(-50%);
     z-index:3;
@@ -81,7 +82,7 @@
     color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.35);
   }
 
-  /* 낙화/반짝이 레이어 */
+  /* 낙화/반짝이 */
   .fall-layer{position:absolute;inset:0;z-index:1;pointer-events:none}
   .fall-layer span{
     position:absolute;top:-10vh; width:6px; height:6px; border-radius:50%;
@@ -104,7 +105,6 @@
   .fall-layer span:nth-child(13){left:90%; animation-duration:8.9s,3.0s;animation-delay:1.3s, .3s}
   .fall-layer span:nth-child(14){left:25%; animation-duration:11s,4.6s; animation-delay:1.8s, .2s; transform:scale(1.2)}
   .fall-layer span:nth-child(15){left:58%; animation-duration:10.2s,4.0s;animation-delay:1.9s, .5s}
-
   @keyframes fall { 0% { transform: translateY(-10vh) } 100%{ transform: translateY(100vh) } }
   @keyframes sway { 0% { margin-left: -6px } 50%{ margin-left: 6px } 100%{ margin-left: -6px } }
 
@@ -131,21 +131,17 @@
   .btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
   .divider{height:1px;background:linear-gradient(90deg,transparent,#eee,transparent);margin:18px 0}
 
-  /* ===== CONTACT (닫힘 기본) ===== */
+  /* details */
   details{border-radius:12px;padding:0;overflow:hidden;border:none}
-  details summary{
-    cursor:pointer;list-style:none;font-weight:800;display:flex;align-items:center;justify-content:space-between;
-    font-size:14px;padding:14px 16px;
-  }
+  details summary{cursor:pointer;list-style:none;font-weight:800;display:flex;align-items:center;justify-content:space-between;font-size:14px;padding:14px 16px;}
   details summary::marker{display:none}
   details .rows{padding:12px 16px 16px}
   .row{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap}
   .copy{font-size:12px;border:1px dashed #7774;border-radius:999px;padding:4px 8px;cursor:pointer}
-  /* 토글 전체 배경 */
   details.groom{ background: #eaf6ff; border:1px solid #d5ecff }
   details.bride{ background: #fff0f5; border:1px solid #ffe1ea }
 
-  /* ===== Account(토글 배경 적용 + 신랑/신부 색상 동일하게) ===== */
+  /* account */
   .account details{ border:1px solid #ffe3ef }
   .account details.groom{ background:#eaf6ff; border-color:#d5ecff }
   .account details.bride{ background:#fff0f5; border-color:#ffe1ea }
@@ -154,58 +150,55 @@
   .account .row{justify-content:space-between; gap:8px}
   .account .row span.copy{ background:#fff; }
 
-  /* ===== 카운트다운 박스 ===== */
+  /* countdown */
   .countdown{display:flex;justify-content:center;gap:8px;margin-top:8px}
   .cd-box{width:68px;height:68px;border-radius:12px;background:#fff;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center}
   .cd-number{font-size:20px;font-weight:800}
   .cd-label{font-size:11px;color:var(--muted)}
 
-  /* ===== 갤러리 ===== */
+  /* gallery */
   .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+  /* 추가: picture 자체가 3:4 박스가 되게 하고 블록화 */
+  .gallery picture { 
+    display:block;
+    aspect-ratio: 3 / 4;
+  }
+
+  /* 수정: 이미지는 래퍼 박스를 가득 채우기 */
+  .gallery picture > img{
+    width:100%;
+    height:100%;        /* <- 추가 */
+    object-fit:cover;   /* 이미 있음 */
+    display:block;      /* 인라인 간격 제거 */
+  }
   .gallery img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;cursor:pointer}
   .no-save{ -webkit-user-drag: none; user-select:none; -webkit-user-select:none }
   .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:50}
   .lightbox.open{display:flex}
   .lightbox .lb-inner{position:relative;max-width:92vw;max-height:86vh;display:flex;align-items:center;justify-content:center}
-  .lightbox img{
-    max-width:92vw;max-height:86vh;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,.5);
-    object-fit:contain;
-    touch-action:none;
-  }
+  .lightbox img{max-width:92vw;max-height:86vh;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,.5);object-fit:contain;touch-action:none;}
   .lightbox .prev, .lightbox .next{
     position:absolute; top:50%; transform:translateY(-50%);
     width:42px;height:42px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.45);
     display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;cursor:pointer;user-select:none;backdrop-filter:blur(4px)
   }
-  .lightbox .prev{ left:-54px }
-  .lightbox .next{ right:-54px }
+  .lightbox .prev{ left:-54px } .lightbox .next{ right:-54px }
 
-  /* ===== 인터뷰 (문장형 + 더 큼 + 더 안쪽) ===== */
+  /* interview */
   .interview{padding:18px 14px;background:#fff7fa;border-radius:14px}
   .interview .title{font-family:var(--font-fancy);letter-spacing:.02em;color:var(--accent);text-align:center;font-size:22px}
   .interview .subtitle{font-size:13px;text-align:center;margin:8px 0 16px}
   .bubble_container{display:grid;gap:16px;padding:0 10px}
   .bubble_box{display:flex;flex-direction:column;gap:8px;max-width:640px;margin:0}
   .bubble_box.left{align-items:flex-start}.bubble_box.right{align-items:flex-end}
-  .bubble_box .name{font-weight:800;font-size:15px;color:#888}  /* (2) 이름 더 키움 */
+  .bubble_box .name{font-weight:800;font-size:15px;color:#888}
   .bubble_wrapper{position:relative;max-width:min(100%,640px)}
   .bubble_text{display:inline-block;border-radius:16px;padding:14px 18px;font-size:16px;line-height:1.68;box-shadow:var(--shadow)}
   .left .bubble_text{background:#eaf6ff}
   .right .bubble_text{background:var(--accent);color:#313131}
   .inter-q{font-size:15px;margin:20px 0 10px;text-align:center;font-weight:700}
 
-  .bubble_box.left .bubble_text { position: relative; }
-  .bubble_box.left .bubble_text::after{
-    content:""; position:absolute; left:-6px; top:12px; width:8px; height:8px;
-    background:#eaf6ff; transform: rotate(45deg); border-radius:2px; box-shadow: var(--shadow);
-  }
-  .bubble_box.right .bubble_text { position: relative; }
-  .bubble_box.right .bubble_text::after{
-    content:""; position:absolute; right:-6px; top:12px; width:8px; height:8px;
-    background:var(--accent); transform: rotate(45deg); border-radius:2px; box-shadow: var(--shadow);
-  }
-
-  /* 스크롤 등장 */
+  /* reveal */
   #interview .bubble_container { justify-items: start; }
   #interview .bubble_box.left  { justify-self: start; align-items: flex-start; }
   #interview .bubble_box.right { justify-self: end;   align-items: flex-end;   }
@@ -213,14 +206,10 @@
   .bubble_box.show { opacity:1; transform:none; }
   .interview .interview_q, .interview .inter-q { opacity:.001; transform: translateY(20px); transition: opacity .45s ease, transform .45s ease; }
   .interview .interview_q.show, .interview .inter-q.show { opacity:1; transform:none; }
-
-  /* 공통 reveal(히어로 제외) */
   .reveal { opacity: 0; transform: translateY(26px); transition: opacity .55s ease, transform .55s ease; }
   .reveal.show { opacity: 1; transform: none; }
 
-  /* 인사말 줄바꿈 보존 */
   .poem{ white-space: pre-line; }
-
   footer{padding:28px 0 16px;text-align:center;color:var(--muted);font-size:12px}
   </style>
 </head>
@@ -228,10 +217,30 @@
 
   <header class="wrap">
     <div class="hero">
-      <!-- D-day 배지: 사진 영역 내부 + 흰색 -->
+      <!-- 히어로: 로컬은 JPG, 배포 시 WebP/AVIF 자동 활성화 -->
+      <picture>
+        <source data-srcset="
+          https://smjhwedding.github.io/hero-1920.avif 1920w,
+          https://smjhwedding.github.io/hero-1280.avif 1280w,
+          https://smjhwedding.github.io/hero-768.avif 768w
+        " type="image/avif" sizes="100vw">
+        <source data-srcset="
+          https://smjhwedding.github.io/hero-1920.webp 1920w,
+          https://smjhwedding.github.io/hero-1280.webp 1280w,
+          https://smjhwedding.github.io/hero-768.webp 768w
+        " type="image/webp" sizes="100vw">
+        <img
+          class="hero-media"
+          src="./KakaoTalk_20250907_195152669.jpg"
+          alt=""
+          width="1920" height="1080"
+          fetchpriority="high" decoding="async">
+      </picture>
+
+      <!-- D-day 배지 -->
       <div class="dday-badge" id="ddayTop">D-90</div>
 
-      <!-- 은은한 반짝이/꽃 레이어 -->
+      <!-- 은은한 반짝이 -->
       <div class="fall-layer" aria-hidden="true">
         <span></span><span></span><span></span><span></span><span></span>
         <span></span><span></span><span></span><span></span><span></span>
@@ -249,7 +258,7 @@
   </header>
 
   <main class="wrap">
-    <!-- (1) INVITATION -->
+    <!-- INVITATION -->
     <section class="card center">
       <h2 class="section-title">INVITATION</h2>
       <p class="small poem">봄처럼 포근하고 여름처럼 뜨겁고 
@@ -265,7 +274,7 @@
       </div>
     </section>
 
-    <!-- CONTACT (기본 닫힘) -->
+    <!-- CONTACT -->
     <section>
       <h2 class="section-title">CONTACT</h2>
       <div class="grid cols-2">
@@ -274,7 +283,7 @@
           <div class="rows small">
             <div class="row">신랑 이상민 • <a href="tel:01050405445">010-5040-5445</a> <span class="copy" data-copy="01050405445">복사</span></div>
             <div class="row">아버지 이제영 • <a href="tel:01052030725">010-5203-0725</a> <span class="copy" data-copy="01052030725">복사</span></div>
-            <div class="row">어머니 윤혜정 • <a href="tel:01023710724">010-2371-0724</a> <span class="copy" data-copy="01027310724">복사</span></div>
+            <div class="row">어머니 윤혜정 • <a href="tel:01027310724">010-2731-0724</a> <span class="copy" data-copy="01027310724">복사</span></div>
           </div>
         </details>
 
@@ -288,7 +297,7 @@
       </div>
     </section>
 
-    <!-- ACCOUNT NUMBER (3: 신랑/신부 배경 적용 + (5) 새 내용) -->
+    <!-- ACCOUNT NUMBER -->
     <section class="account">
       <h2 class="section-title">ACCOUNT NUMBER</h2>
       <p class="small center muted">부담 갖지 않으셔도 됩니다. 필요하신 분만 이용해주세요.</p>
@@ -301,9 +310,6 @@
             <div class="row" style="justify-content:flex-start"><b>신부 계좌</b></div>
             <div class="row" style="justify-content:flex-start">하나은행 <span class="muted">(예금주 : 이진희)</span></div>
             <div class="row"><span>계좌번호</span> <span class="copy" data-copy="73291008224907">73291008224907</span></div>
-            <!-- <div class="row" style="justify-content:flex-start">
-              <a class="btn ghost" href="#!" title="카드결제">카드결제</a>
-            </div> -->
 
             <div class="divider"></div>
 
@@ -337,85 +343,57 @@
       </div>
     </section>
 
-    <!-- GALLERY (다운로드 방지) -->
+    <!-- GALLERY -->
     <section>
       <h2 class="section-title">GALLERY</h2>
       <p class="small muted center">사진을 클릭하면 크게 볼 수 있어요. 좌우로 넘겨볼 수 있어요.</p>
       <div class="gallery card" id="gallery">
-        <img class="no-save" src="./KakaoTalk_20250908_010410211_01.jpg" alt="gallery1" draggable="false" oncontextmenu="return false" onmousedown="return false">
-        <img class="no-save" src="./KakaoTalk_20250908_010410211.jpg" alt="gallery2" draggable="false" oncontextmenu="return false" onmousedown="return false">
+        <!-- 갤러리 1 -->
+        <picture>
+          <source data-srcset="
+            https://smjhwedding.github.io/gallery1-1024.avif 1024w,
+            https://smjhwedding.github.io/gallery1-768.avif 768w,
+            https://smjhwedding.github.io/gallery1-512.avif 512w
+          " type="image/avif" sizes="(min-width:760px) 33vw, 33vw">
+          <source data-srcset="
+            https://smjhwedding.github.io/gallery1-1024.webp 1024w,
+            https://smjhwedding.github.io/gallery1-768.webp 768w,
+            https://smjhwedding.github.io/gallery1-512.webp 512w
+          " type="image/webp" sizes="(min-width:760px) 33vw, 33vw">
+          <img class="no-save"
+               src="./KakaoTalk_20250908_010410211_01.jpg"
+               alt="gallery1"
+               width="1024" height="1365"
+               loading="lazy" decoding="async"
+               draggable="false" oncontextmenu="return false" onmousedown="return false">
+        </picture>
+
+        <!-- 갤러리 2 -->
+        <picture>
+          <source data-srcset="
+            https://smjhwedding.github.io/gallery2-1024.avif 1024w,
+            https://smjhwedding.github.io/gallery2-768.avif 768w,
+            https://smjhwedding.github.io/gallery2-512.avif 512w
+          " type="image/avif" sizes="(min-width:760px) 33vw, 33vw">
+          <source data-srcset="
+            https://smjhwedding.github.io/gallery2-1024.webp 1024w,
+            https://smjhwedding.github.io/gallery2-768.webp 768w,
+            https://smjhwedding.github.io/gallery2-512.webp 512w
+          " type="image/webp" sizes="(min-width:760px) 33vw, 33vw">
+          <img class="no-save"
+               src="./KakaoTalk_20250908_010410211.jpg"
+               alt="gallery2"
+               width="1024" height="1365"
+               loading="lazy" decoding="async"
+               draggable="false" oncontextmenu="return false" onmousedown="return false">
+        </picture>
       </div>
+
       <div class="lightbox" id="lightbox" aria-modal="true" role="dialog">
         <div class="lb-inner">
           <div class="prev" id="lbPrev" aria-label="이전">‹</div>
           <img class="no-save" alt="preview" draggable="false" oncontextmenu="return false" onmousedown="return false">
           <div class="next" id="lbNext" aria-label="다음">›</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- INTERVIEW -->
-    <section class="card interview" id="interview">
-      <h3 class="title">INTERVIEW</h3>
-      <p class="subtitle">서로를 더 가까이</p>
-
-      <p class="inter-q">처음 본 순간 느낌?</p>
-      <div class="bubble_container">
-        <div class="bubble_box left">
-          <p class="name">상민</p>
-          <div class="bubble_wrapper"><p class="bubble_text">빨간 볼이 매력적이었어</p></div>
-        </div>
-        <div class="bubble_box right">
-          <p class="name">진희</p>
-          <div class="bubble_wrapper"><p class="bubble_text">부드러운 미소가 좋았어</p></div>
-        </div>
-      </div>
-
-      <p class="inter-q">내 매력 포인트는?</p>
-      <div class="bubble_container">
-        <div class="bubble_box left">
-          <p class="name">상민</p>
-          <div class="bubble_wrapper"><p class="bubble_text">완벽한 성대모사</p></div>
-        </div>
-        <div class="bubble_box right">
-          <p class="name">진희</p>
-          <div class="bubble_wrapper"><p class="bubble_text">쏘옥 들어가는 보조개 😊</p></div>
-        </div>
-      </div>
-
-      <p class="inter-q">내가 제일 좋아하는 음식은?</p>
-      <div class="bubble_container">
-        <div class="bubble_box left">
-          <p class="name">상민</p>
-          <div class="bubble_wrapper"><p class="bubble_text">빵 미만 잡</p></div>
-        </div>
-        <div class="bubble_box right">
-          <p class="name">진희</p>
-          <div class="bubble_wrapper"><p class="bubble_text">또! 또!! 또!!! 제육</p></div>
-        </div>
-      </div>
-
-      <p class="inter-q">핸드폰에 저장된 이름?</p>
-      <div class="bubble_container">
-        <div class="bubble_box left">
-          <p class="name">상민</p>
-          <div class="bubble_wrapper"><p class="bubble_text">찌니프</p></div>
-        </div>
-        <div class="bubble_box right">
-          <p class="name">진희</p>
-          <div class="bubble_wrapper"><p class="bubble_text">보스미니</p></div>
-        </div>
-      </div>
-
-      <p class="inter-q">10년 뒤 우리 모습은?</p>
-      <div class="bubble_container">
-        <div class="bubble_box left">
-          <p class="name">상민</p>
-          <div class="bubble_wrapper"><p class="bubble_text">아이와 함께 보드게임 하기</p></div>
-        </div>
-        <div class="bubble_box right">
-          <p class="name">진희</p>
-          <div class="bubble_wrapper"><p class="bubble_text">가족 모두 유니폼 입고 야구장 직관하기</p></div>
         </div>
       </div>
     </section>
@@ -435,7 +413,7 @@
       </div>
     </section>
 
-    <!-- ICS 달력 버튼 -->
+    <!-- ICS -->
     <section class="center" style="margin-top:12px">
       <a class="btn" id="icsBtn" download="상민진희_결혼식_2025-12-13.ics" href="#">캘린더에 추가</a>
       <p class="small muted" style="margin-top:6px">하루 전 & 2시간 전 알림 포함</p>
@@ -450,6 +428,21 @@
 
   <script>
   document.addEventListener('DOMContentLoaded', () => {
+    /* ===== 프로덕션일 때만 AVIF/WEBP srcset 활성화 + 프리로드 주입 ===== */
+    const isProd = location.hostname === 'smjhwedding.github.io';
+    if (isProd) {
+      document.querySelectorAll('source[data-srcset]').forEach(s => {
+        s.setAttribute('srcset', s.getAttribute('data-srcset'));
+      });
+      // hero 프리로드(옵션)
+      const l = document.createElement('link');
+      l.rel = 'preload'; l.as = 'image';
+      l.href = 'https://smjhwedding.github.io/hero-1280.webp';
+      l.setAttribute('imagesrcset', 'https://smjhwedding.github.io/hero-768.webp 768w, https://smjhwedding.github.io/hero-1280.webp 1280w, https://smjhwedding.github.io/hero-1920.webp 1920w');
+      l.setAttribute('imagesizes', '100vw');
+      document.head.appendChild(l);
+    }
+
     /* ===== 인터뷰/공통 리빌 ===== */
     const interTargets = document.querySelectorAll(
       '#interview .inter-q, #interview .interview_q, #interview .bubble_container > div, #interview .bubble_box'
@@ -472,7 +465,7 @@
     function initKakaoMap(){
       if(!window.kakao || !kakao.maps) return;
       const container = document.getElementById('map');
-      const center = new kakao.maps.LatLng(37.490617, 126.921312); // 보라매로5길 15 인근
+      const center = new kakao.maps.LatLng(37.490617, 126.921312);
       const map = new kakao.maps.Map(container, { center, level: 4 });
       new kakao.maps.Marker({ map, position: center });
     }
@@ -484,7 +477,7 @@
       }
     }
 
-    /* ===== D-DAY (상단 배지 동기화) ===== */
+    /* ===== D-DAY ===== */
     const target = new Date("2025-12-13T14:00:00+09:00").getTime();
     const dtext = document.getElementById('dtext');
     const el = {
@@ -511,7 +504,7 @@
     }
     tick(); setInterval(tick, 1000);
 
-    /* ===== 복사 버튼 (4: 안정 복귀) ===== */
+    /* ===== 복사 버튼: 원상복귀 ===== */
     document.addEventListener('click', (e)=>{
       const btn = e.target.closest('.copy');
       if(!btn) return;
@@ -526,8 +519,8 @@
       });
     });
 
-    /* ===== 갤러리 라이트박스/캐러셀 + 다운로드 방지 ===== */
-    const gallery = Array.from(document.querySelectorAll('#gallery img'));
+    /* ===== 갤러리 라이트박스 ===== */
+    const thumbs = Array.from(document.querySelectorAll('#gallery picture img'));
     const lb = document.getElementById('lightbox');
     const lbImg = lb.querySelector('img');
     const prevBtn = document.getElementById('lbPrev');
@@ -535,19 +528,16 @@
     let idx = 0, touchStartX = 0, touchEndX = 0;
 
     function openAt(i){
-      idx = (i + gallery.length) % gallery.length;
-      lbImg.src = gallery[idx].src;
+      idx = (i + thumbs.length) % thumbs.length;
+      lbImg.src = thumbs[idx].currentSrc || thumbs[idx].src;
       lb.classList.add('open');
     }
-    function closeLb(){
-      lb.classList.remove('open');
-      lbImg.src = '';
-    }
+    function closeLb(){ lb.classList.remove('open'); lbImg.src = ''; }
     function next(){ openAt(idx+1) }
     function prev(){ openAt(idx-1) }
 
-    gallery.forEach((img,i)=> img.addEventListener('click', ()=> openAt(i)));
-    lb.addEventListener('click', (e)=>{ if(e.target === lb) closeLb(); }); // 바깥 클릭 닫기
+    thumbs.forEach((img,i)=> img.addEventListener('click', ()=> openAt(i)));
+    lb.addEventListener('click', (e)=>{ if(e.target === lb) closeLb(); });
     document.addEventListener('keydown', (e)=>{
       if(!lb.classList.contains('open')) return;
       if(e.key === 'Escape') closeLb();
@@ -557,22 +547,18 @@
     nextBtn.addEventListener('click', (e)=>{ e.stopPropagation(); next(); });
     prevBtn.addEventListener('click', (e)=>{ e.stopPropagation(); prev(); });
 
-    // 스와이프
     lbImg.addEventListener('touchstart', (e)=>{ touchStartX = e.changedTouches[0].clientX; }, {passive:true});
     lbImg.addEventListener('touchend', (e)=>{
       touchEndX = e.changedTouches[0].clientX;
       const delta = touchEndX - touchStartX;
-      if(Math.abs(delta) > 40){
-        delta < 0 ? next() : prev();
-      }
+      if(Math.abs(delta) > 40){ delta < 0 ? next() : prev(); }
     }, {passive:true});
 
-    // 다운로드 방지: 갤러리/라이트박스에서 우클릭 방지
     document.addEventListener('contextmenu', (e)=>{
       if(e.target.closest('#gallery') || e.target.closest('#lightbox')) e.preventDefault();
     });
 
-    /* ===== 캘린더(.ics) 생성 ===== */
+    /* ===== 캘린더(.ics) ===== */
     const icsBtn = document.getElementById('icsBtn');
     if(icsBtn){
       const ics = `BEGIN:VCALENDAR
