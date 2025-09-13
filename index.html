@@ -226,10 +226,8 @@
           fetchpriority="high" decoding="async">
       </picture>
 
-      <!-- D-day 배지 -->
       <div class="dday-badge" id="ddayTop">D-90</div>
 
-      <!-- 은은한 반짝이 -->
       <div class="fall-layer" aria-hidden="true">
         <span></span><span></span><span></span><span></span><span></span>
         <span></span><span></span><span></span><span></span><span></span>
@@ -383,6 +381,72 @@
           <div class="prev" id="lbPrev" aria-label="이전">‹</div>
           <img class="no-save" alt="preview" draggable="false" oncontextmenu="return false" onmousedown="return false">
           <div class="next" id="lbNext" aria-label="다음">›</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERVIEW -->
+    <section class="card interview" id="interview">
+      <h3 class="title">INTERVIEW</h3>
+      <p class="subtitle">서로를 더 가까이</p>
+
+      <p class="inter-q">처음 본 순간 느낌?</p>
+      <div class="bubble_container">
+        <div class="bubble_box left">
+          <p class="name">상민</p>
+          <div class="bubble_wrapper"><p class="bubble_text">빨간 볼이 매력적이었어</p></div>
+        </div>
+        <div class="bubble_box right">
+          <p class="name">진희</p>
+          <div class="bubble_wrapper"><p class="bubble_text">부드러운 미소가 좋았어</p></div>
+        </div>
+      </div>
+
+      <p class="inter-q">내 매력 포인트는?</p>
+      <div class="bubble_container">
+        <div class="bubble_box left">
+          <p class="name">상민</p>
+          <div class="bubble_wrapper"><p class="bubble_text">완벽한 성대모사</p></div>
+        </div>
+        <div class="bubble_box right">
+          <p class="name">진희</p>
+          <div class="bubble_wrapper"><p class="bubble_text">쏘옥 들어가는 보조개 😊</p></div>
+        </div>
+      </div>
+
+      <p class="inter-q">내가 제일 좋아하는 음식은?</p>
+      <div class="bubble_container">
+        <div class="bubble_box left">
+          <p class="name">상민</p>
+          <div class="bubble_wrapper"><p class="bubble_text">빵 미만 잡</p></div>
+        </div>
+        <div class="bubble_box right">
+          <p class="name">진희</p>
+          <div class="bubble_wrapper"><p class="bubble_text">또! 또!! 또!!! 제육</p></div>
+        </div>
+      </div>
+
+      <p class="inter-q">핸드폰에 저장된 이름?</p>
+      <div class="bubble_container">
+        <div class="bubble_box left">
+          <p class="name">상민</p>
+          <div class="bubble_wrapper"><p class="bubble_text">찌니프</p></div>
+        </div>
+        <div class="bubble_box right">
+          <p class="name">진희</p>
+          <div class="bubble_wrapper"><p class="bubble_text">보스미니</p></div>
+        </div>
+      </div>
+
+      <p class="inter-q">10년 뒤 우리 모습은?</p>
+      <div class="bubble_container">
+        <div class="bubble_box left">
+          <p class="name">상민</p>
+          <div class="bubble_wrapper"><p class="bubble_text">아이와 함께 보드게임 하기</p></div>
+        </div>
+        <div class="bubble_box right">
+          <p class="name">진희</p>
+          <div class="bubble_wrapper"><p class="bubble_text">가족 모두 유니폼 입고 야구장 직관하기</p></div>
         </div>
       </div>
     </section>
@@ -607,7 +671,7 @@ END:VCALENDAR`;
       const btnGoogle       = document.getElementById('btnGoogle');
       const btnIcsDownload  = document.getElementById('btnIcsDownload');
 
-      // 백업용 다운로드 링크 설정
+      // 백업용 다운로드 링크 설정(있다면)
       if (btnIcsDownload){
         btnIcsDownload.href = blobUrl;
         btnIcsDownload.setAttribute('download', fileName);
@@ -617,7 +681,7 @@ END:VCALENDAR`;
       if (btnAppleSamsung){
         btnAppleSamsung.addEventListener('click', (e)=>{
           e.preventDefault();
-          window.location.href = blobUrl; // iOS/삼성은 캘린더로 전달되는 경우가 많음
+          window.location.href = blobUrl; // iOS/삼성 캘린더로 연결되는 경우가 많음
         });
       }
 
