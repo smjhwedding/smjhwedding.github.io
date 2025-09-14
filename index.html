@@ -11,11 +11,11 @@
   <meta property="og:image" content="https://smjhwedding.github.io/og-1200x630.jpg" />
 
   <!-- 폰트 프리로드 -->
-  <link rel="preload" href="/Autography.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/HakgyoansimGeurimilgiOTFR.otf" as="font" type="font/otf" crossorigin>
-  <link rel="preload" href="/HakgyoansimGeurimilgiTTFR.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="./Autography.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./HakgyoansimGeurimilgiOTFR.otf" as="font" type="font/otf" crossorigin>
+  <link rel="preload" href="./HakgyoansimGeurimilgiTTFR.ttf" as="font" type="font/ttf" crossorigin>
   <!-- SVG 전용: 루트의 OTF 사용 -->
-  <link rel="preload" href="/Autography.otf" as="font" type="font/otf" crossorigin>
+  <link rel="preload" href="./Autography.otf" as="font" type="font/otf" crossorigin>
 
   <link rel="icon" href="/favicon.ico" />
 
@@ -28,7 +28,7 @@
     }
     @font-face{
       font-family: "Autography";
-      src: url("/Autography.woff2") format("woff2");
+      src: url("./Autography.woff2") format("woff2");
       font-weight: 400 800;
       font-style: normal;
       font-display: swap;
@@ -36,8 +36,8 @@
     @font-face{
       font-family: "Hakgyoansim Geurimilgi";
       src:
-        url("/HakgyoansimGeurimilgiOTFR.otf") format("opentype"),
-        url("/HakgyoansimGeurimilgiTTFR.ttf") format("truetype");
+        url("./HakgyoansimGeurimilgiOTFR.otf") format("opentype"),
+        url("./HakgyoansimGeurimilgiTTFR.ttf") format("truetype");
       font-weight: normal;
       font-style: normal;
       font-display: swap;
@@ -45,7 +45,7 @@
     /* SVG 전용: 루트의 OTF 사용 */
     @font-face{
       font-family: "AutographySVG";
-      src: url("/Autography.otf") format("opentype");
+      src: url("./Autography.otf") format("opentype");
       font-weight: 400 800;
       font-style: normal;
       font-display: swap;
@@ -66,7 +66,9 @@
     }
     *{box-sizing:border-box}
     html{font-size:16px}
-    @media (max-width: 759px){ html{ font-size:16px  } }
+    @media (max-width: 759px) {
+      html{ font-size:16px }
+    }
 
     html,body{
       margin:0;padding:0;background:var(--bg);color:var(--ink);
@@ -76,8 +78,12 @@
 
     a{color:inherit;text-decoration:none}
     .wrap{max-width:var(--maxw);margin:0 auto;padding:18px}
-    .wrap > section{ margin: 30px 0; }
-    @media (min-width:760px){ .wrap > section{ margin: 38px 0; } }
+
+    /* 섹션 간격 확대 */
+    .wrap > section{ margin: 36px 0; }            /* 모바일: 30 → 36 */
+    @media (min-width:760px){
+      .wrap > section{ margin: 48px 0; }          /* 데스크탑: 38 → 48 */
+    }
 
     /* ===== HERO ===== */
     .hero{
@@ -154,12 +160,12 @@
     .glyph.stroke{
       stroke-dasharray: 1200;
       stroke-dashoffset: 1200;
-      animation: drawLetter 1.4s ease forwards;                 /* 0.9s → 1.4s */
-      animation-delay: calc(var(--i) * 0.14s + .20s);            /* 스텝도 살짝 늘림 */
+      animation: drawLetter 3.6s ease forwards;
+      animation-delay: calc(var(--i) * 0.42s + .50s);
     }
     .glyph.fill{
-      animation: fillLetter .70s ease forwards;                  /* 0.45s → 0.70s */
-      animation-delay: calc(var(--i) * 0.14s + .85s);            /* 채움 시작을 더 뒤로 */
+      animation: fillLetter 1.4s ease forwards;
+      animation-delay: calc(var(--i) * 0.42s + 2.4s);
     }
     @keyframes drawLetter{
       0%   { opacity:1; stroke-dashoffset:1200; filter:blur(.2px) }
@@ -188,7 +194,7 @@
       color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.35);
     }
 
-    /* ===== (아래부터는 기존 스타일 그대로) ===== */
+    /* ===== 기타 공통 ===== */
     h2.section-title{ text-align:center; margin:22px 0 8px; color:var(--accent); font-weight:400; letter-spacing:.02em;font-size:1.2rem; }
     .card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:14px;margin:10px 0;}
     .grid{display:grid;gap:12px}
@@ -233,36 +239,100 @@
       .lightbox .prev{ left:8px } .lightbox .next{ right:8px }
       .lightbox .prev, .lightbox .next{ width:48px; height:48px; font-size:24px }
     }
+
+    /* === INTERVIEW: 제목/부제는 다른 섹션과 글자 크기 일치 === */
     .interview{ padding:8px 8px; background:#fff7fa; border-radius:14px }
-    .interview .title{ letter-spacing:.02em;color:var(--accent);text-align:center; font-size:1.02rem; margin:0 0 4px; }
-    .interview .subtitle{ font-size:.82rem;text-align:center;margin:0 0 6px 0;color:#777; }
+    .interview .title{
+      text-align:center;
+      margin:22px 0 8px;
+      color:var(--accent);
+      letter-spacing:.02em;
+      font-weight:400;
+      font-size:1.2rem; /* h2.section-title와 동일 */
+    }
+    .interview .subtitle{
+      text-align:center;
+      margin:0 0 6px 0;
+      color:var(--muted);
+      font-size:1rem;   /* .small 과 동일 */
+      font-weight:400;
+    }
     .interview-inner{ max-width:460px; margin:0 auto; }
-    .inter-q{ font-size:.9rem;margin:4px 0 4px;text-align:center;font-weight:800 }
+
+    /* === 인터뷰 본문(질문/이름/말풍선 텍스트) 0.7배 축소 === */
+    .inter-q{
+      font-size: calc(1.8rem * .7);   /* 1.26rem */
+      margin:4px 0 4px;
+      text-align:center;
+      font-weight:800;
+    }
     .bubble_container{ display:grid; gap:2px; padding:0 0; margin:0 0 6px 0; }
     .bubble_box{ display:flex;flex-direction:column;gap:1px; width:72%; margin:0 auto; opacity:0; transform:translateY(8px); transition:opacity .22s ease, transform .22s ease; }
     .bubble_box.show { opacity:1; transform:none }
-    .bubble_box .name{ font-weight:900; font-size:.82rem; color:#777; line-height:1.12 }
-    .bubble_text{ display:inline-block;border-radius:12px;padding:6px 8px; font-size:.9rem; line-height:1.38; box-shadow:var(--shadow); max-width:100%; }
+    .bubble_box .name{
+      font-weight:900;
+      font-size: calc(1.64rem * .7);  /* ≈1.148rem */
+      color:#777;
+      line-height:1.12;
+    }
+    .bubble_text{
+      display:inline-block;border-radius:12px;
+      padding: calc(12px * .7) calc(14px * .7); /* 8.4px 9.8px */
+      font-size: calc(1.8rem * .7);   /* 1.26rem */
+      line-height:1.44;
+      box-shadow:var(--shadow);
+      max-width:100%;
+    }
     .bubble_box.left{ align-items:flex-start; }
     .bubble_box.right{ align-items:flex-end; }
     .left .bubble_text{ background:#eaf6ff }
     .right .bubble_text{ background:var(--accent); color:#313131 }
+
+    /* 작은 화면에서도 비율 유지(원래 모바일 값의 0.7배) */
     @media (max-width:430px){
-      .inter-q{ font-size:.88rem; margin:4px 0 3px }
-      .bubble_container{ gap:2px; margin-bottom:4px }
+      .inter-q{
+        font-size: calc(1.6rem * .7);   /* 1.12rem */
+        margin:6px 0 4px;
+      }
+      .bubble_container{ gap:2px; margin-bottom:6px }
       .bubble_box{ width:82%; }
-      .bubble_text{ font-size:.88rem; padding:6px 8px; line-height:1.36 }
-      .bubble_box .name{ font-size:.8rem }
+      .bubble_text{
+        font-size: calc(1.6rem * .7);   /* 1.12rem */
+        padding: calc(10px * .7) calc(12px * .7); /* 7px 8.4px */
+        line-height:1.4;
+      }
+      .bubble_box .name{
+        font-size: calc(1.48rem * .7);  /* ≈1.036rem */
+      }
     }
+
+    /* Invitation */
     #invitation .poem{ font-size:1.02rem; line-height:1.45; white-space:pre-line; margin:0; }
     #invitation .small{ font-size:1.0rem }
+
+    /* Icons / Navi */
     .icon-chry{ display:inline-flex; vertical-align:-2px; margin-right:4px }
     .icon-chry svg{ width:1.05em; height:1.05em; }
     .navi{ display:grid; grid-template-columns: repeat(3, 1fr); gap:8px; align-items:center; justify-items:center; }
     .navi .btn{ width:100%; flex:none; padding:10px 8px; font-size:.9rem; min-width:0; }
+
+    /* Footer */
     footer{padding:22px 0 14px;text-align:center;color:var(--muted);font-size:.9rem}
+
+    /* Spark layer */
     .spark-layer{position:absolute; inset:0; z-index:2; pointer-events:none; overflow:hidden}
     .spark-layer canvas{position:absolute; inset:0; width:100%; height:100%; filter:blur(.4px)}
+
+    /* ===== 모바일에서 .card.center 박스 느낌 제거 ===== */
+    @media (max-width: 759px){
+      .card.center{
+        background: transparent;
+        box-shadow: none;
+        border-radius: 0;
+        padding: 0;
+        margin: 0; /* 카드 자체 여백도 제거해 더 자연스럽게 */
+      }
+    }
   </style>
 </head>
 <body>
@@ -312,14 +382,14 @@
         <!-- 상단: Love -->
         <g class="svg-top fancy" mask="url(#heroMask)" clip-path="url(#photoClip)">
           <!-- 윤곽선 -->
-          <text x="500" y="100" class="stroke" style="font-weight:700; font-size:42px;">
+          <text x="500" y="80" class="stroke"  lengthAdjust="spacing" textLength="300" style="font-weight:700; font-size:60px;">
             <tspan class="glyph stroke" style="--i:0">L</tspan>
             <tspan class="glyph stroke" style="--i:1">o</tspan>
             <tspan class="glyph stroke" style="--i:2">v</tspan>
             <tspan class="glyph stroke" style="--i:3">e</tspan>
           </text>
           <!-- 채움(녹음과 조화되는 파스텔 민트) -->
-          <text x="500" y="100" class="fill-top" style="font-weight:700; font-size:42px;">
+          <text x="500" y="80" class="fill-top" lengthAdjust="spacing" textLength="300" style="font-weight:700; font-size:60px;">
             <tspan class="glyph fill" style="--i:0">L</tspan>
             <tspan class="glyph fill" style="--i:1">o</tspan>
             <tspan class="glyph fill" style="--i:2">v</tspan>
@@ -330,7 +400,7 @@
         <!-- 하단: EachOther (날짜/장소를 가리지 않도록 y≈420) -->
         <g class="svg-top fancy" mask="url(#heroMask)" clip-path="url(#photoClip)">
           <!-- 윤곽선 -->
-          <text x="500" y="480" class="stroke" style="font-weight:700; font-size:32px;">
+          <text x="500" y="480" class="stroke" lengthAdjust="spacing" textLength="300" style="font-weight:700; font-size:40px;">
             <tspan class="glyph stroke" style="--i:0">E</tspan>
             <tspan class="glyph stroke" style="--i:1">a</tspan>
             <tspan class="glyph stroke" style="--i:2">c</tspan>
@@ -342,7 +412,7 @@
             <tspan class="glyph stroke" style="--i:8">r</tspan>
           </text>
           <!-- 채움(수트/핑크 드레스와 조화되는 웜 블러쉬) -->
-          <text x="500" y="480" class="fill-bottom" style="font-weight:700; font-size:32px;">
+          <text x="500" y="480" class="fill-bottom" lengthAdjust="spacing" textLength="300" style="font-weight:700; font-size:40px;">
             <tspan class="glyph fill" style="--i:0">E</tspan>
             <tspan class="glyph fill" style="--i:1">a</tspan>
             <tspan class="glyph fill" style="--i:2">c</tspan>
@@ -928,6 +998,32 @@ END:VCALENDAR`;
       }
       requestAnimationFrame(draw);
     })();
+
+    // === LOVE / EACHOTHER 자간 넓히기 (가운데 정렬 유지) ===
+    // factor(1.00=원래폭) 만큼 전체 폭을 늘리면서 글자간 간격만 벌림
+    function loosenWord(selector, factor = 1.16) {
+      document.querySelectorAll(selector).forEach(t => {
+        // 이전 설정 초기화 후 실제 폭 측정
+        t.removeAttribute('lengthAdjust');
+        t.removeAttribute('textLength');
+        const w = t.getBBox().width;
+        // 글자 사이 간격만 늘려서 text 전체를 factor배로 확장
+        t.setAttribute('lengthAdjust', 'spacing');
+        t.setAttribute('textLength', (w * factor).toFixed(1));
+      });
+    }
+
+    // 폰트가 로드된 뒤에 적용해야 정확함
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        // 상단 Love, 하단 EachOther 모두에 적용
+        loosenWord('.hero-svg text', 1.16); // 1.10~1.20 사이에서 취향대로
+      });
+    } else {
+      // 구형 브라우저 대비: 약간 지연 후 적용
+      setTimeout(() => loosenWord('.hero-svg text', 1.16), 400);
+    }
+
   });
   </script>
 
