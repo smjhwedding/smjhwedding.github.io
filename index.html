@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalabled=no" />
   <title>저희 결혼합니다 | 상민 ♥ 진희</title>
 
   <!-- OG / 공유 썸네일 (GitHub Pages 절대 경로) -->
@@ -55,68 +55,83 @@
   *{box-sizing:border-box}
   html{font-size:16px}
   @media (max-width: 759px){ html{ font-size:17.5px } }
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased}
+
+  /* 전체 폰트를 손글씨 폰트로 통일 */
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--font-fancy);-webkit-font-smoothing:antialiased}
+
   a{color:inherit;text-decoration:none}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:18px}
 
   /* ===== HERO ===== */
   .hero{
     position:relative;overflow:hidden;border-radius:var(--radius);
-    min-height:56vh;background:#000;
+    min-height:60vh;background:#000;
     color:#fff; display:flex; align-items:flex-end; justify-content:center; text-align:center; box-shadow:var(--shadow)
   }
   .hero-media{
     position:absolute; inset:0; z-index:0; display:block; width:100%; height:100%; object-fit:cover;
+    animation: kenburns 28s ease-in-out both;
+    /* 살짝만 밝게 (강한 빛반사 제거) */
+    filter: brightness(1.04) contrast(1.03) saturate(1.06);
+    transform: scale(1.04);
   }
-  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.30) 0%,rgba(0,0,0,.55) 60%,rgba(0,0,0,.78) 100%); z-index:1}
-  .hero-inner{position:relative;z-index:2;padding:42px 18px 28px}
-  .names{font-family:var(--font-fancy);font-weight:400;font-size:2.3rem;letter-spacing:.02em}
-  @media (max-width:759px){ .names{ font-size:2.5rem } }
+  @keyframes kenburns{
+    0%{ transform: scale(1.06) translate3d(0,0,0) }
+    50%{ transform: scale(1.12) translate3d(0, -1.2%, 0) }
+    100%{ transform: scale(1.08) translate3d(0, 0, 0) }
+  }
+  /* 상단 빛반사 오버레이 제거 → 아주 은은한 하단 그라데이션만 */
+  .hero::after{
+    content:"";position:absolute;inset:0;
+    background: linear-gradient(0deg, rgba(0,0,0,.28) 0%, rgba(0,0,0,.12) 40%, rgba(0,0,0,0) 80%);
+    z-index:1
+  }
+  .hero-inner{position:relative;z-index:3;padding:46px 18px 30px}
+  .names{font-weight:400;font-size:2.5rem;letter-spacing:.02em}
+  @media (max-width:759px){ .names{ font-size:2.7rem } }
   .amp{color:var(--accent)}
-  .date{margin-top:12px;line-height:1.4}
-  .date .d1{display:block;font-size:1rem;opacity:.98}
-  .date .d2{display:block;margin-top:4px;font-size:.95rem;opacity:.95}
-  @media (max-width:759px){ .date .d1{font-size:1.05rem} .date .d2{font-size:1rem} }
+
+  .date{margin-top:12px;line-height:1.45}
+  /* 날짜/시간 줄배치 고정(두 줄) */
+  .date .d1, .date .d2{display:block}
+  .date .d1{font-size:1.08rem}
+  .date .d2{font-size:1rem;opacity:.98}
+  @media (max-width:759px){ .date .d2{font-size:1.02rem} }
+
   .dday-badge{
     position:absolute;top:10px;left:50%;transform:translateX(-50%);
-    z-index:3;
-    background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.45);
-    padding:6px 10px;border-radius:999px;font-size:.78rem;backdrop-filter: blur(4px);
-    color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.35);
+    z-index:4;
+    background:rgba(255,255,255,.40); border:1px solid rgba(255,255,255,.65);
+    padding:6px 10px;border-radius:999px;font-size:.78rem;backdrop-filter: blur(6px);
+    color:#333; text-shadow:0 1px 2px rgba(255,255,255,.35);
   }
 
-  /* 낙화/반짝이 */
-  .fall-layer{position:absolute;inset:0;z-index:1;pointer-events:none}
-  .fall-layer span{
-    position:absolute;top:-10vh; width:6px; height:6px; border-radius:50%;
-    background:radial-gradient(circle,#fff 0%, #ffd6e2 60%, transparent 70%);
-    opacity:.85; filter: blur(.2px);
-    animation: fall linear infinite, sway ease-in-out infinite;
+  /* SVG 이미지 파티클(하트/꽃/별) */
+  .spark-layer{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden}
+  .spark{
+    position:absolute; top:70%; left:50%;
+    transform: translateX(-50%);
+    width:22px; height:22px; opacity:0;
+    animation: floatUp var(--dur,9s) ease-in infinite, twinkle 2.2s ease-in-out infinite, spin var(--rotDur,10s) linear infinite;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,.15));
   }
-  .fall-layer span:nth-child(1){left:5%;  animation-duration:8s, 3s; animation-delay:0s, .2s; transform:scale(.9)}
-  .fall-layer span:nth-child(2){left:12%; animation-duration:9s, 4s; animation-delay:1s, .6s; transform:scale(.8)}
-  .fall-layer span:nth-child(3){left:18%; animation-duration:10s,3.5s;animation-delay:.5s, .1s}
-  .fall-layer span:nth-child(4){left:26%; animation-duration:8.5s,3.2s;animation-delay:1.2s, .4s}
-  .fall-layer span:nth-child(5){left:33%; animation-duration:9.8s,4.1s;animation-delay:.3s, .3s; transform:scale(1.1)}
-  .fall-layer span:nth-child(6){left:41%; animation-duration:7.8s,2.9s;animation-delay:1.1s, .5s}
-  .fall-layer span:nth-child(7){left:48%; animation-duration:9.2s,3.6s;animation-delay:.2s, .7s}
-  .fall-layer span:nth-child(8){left:56%; animation-duration:8.6s,3.1s;animation-delay:1.4s, .2s}
-  .fall-layer span:nth-child(9){ left:63%; animation-duration:9.4s,3.9s;animation-delay:.7s, .8s}
-  .fall-layer span:nth-child(10){left:70%; animation-duration:10.5s,4.4s;animation-delay:.9s, .1s}
-  .fall-layer span:nth-child(11){left:77%; animation-duration:8.2s,3.1s;animation-delay:1.6s, .4s}
-  .fall-layer span:nth-child(12){left:84%; animation-duration:9.7s,3.8s;animation-delay:.4s, .9s}
-  .fall-layer span:nth-child(13){left:90%; animation-duration:8.9s,3.0s;animation-delay:1.3s, .3s}
-  .fall-layer span:nth-child(14){left:25%; animation-duration:11s,4.6s; animation-delay:1.8s, .2s; transform:scale(1.2)}
-  .fall-layer span:nth-child(15){left:58%; animation-duration:10.2s,4.0s;animation-delay:1.9s, .5s}
-  @keyframes fall { 0% { transform: translateY(-10vh) } 100%{ transform: translateY(100vh) } }
-  @keyframes sway { 0% { margin-left: -6px } 50%{ margin-left: 6px } 100%{ margin-left: -6px } }
+  @keyframes floatUp{
+    0%{ transform: translate(-50%, 20vh) scale(.85); opacity:0 }
+    10%{ opacity:.95 }
+    60%{ opacity:.95 }
+    100%{ transform: translate(calc(-50% + var(--drift, 40px)), -120vh) scale(1.05); opacity:0 }
+  }
+  @keyframes twinkle{
+    0%,100%{ filter: drop-shadow(0 2px 8px rgba(255,255,255,.35)); opacity:.85 }
+    50%{ filter: drop-shadow(0 4px 10px rgba(255,255,255,.75)); opacity:1 }
+  }
+  @keyframes spin{ from{ rotate(0deg) } to{ rotate(360deg) } }
 
   /* ===== 공통 ===== */
   h2.section-title{
     text-align:center;
-    margin:28px 0 12px; color:var(--accent); font-family:var(--font-fancy); font-weight:400; letter-spacing:.02em;font-size:1.15rem;
+    margin:28px 0 12px; color:var(--accent); font-weight:400; letter-spacing:.02em;font-size:1.2rem;
   }
-  @media (max-width:759px){ h2.section-title{ font-size:1.2rem } }
   .card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin:14px 0;}
   .grid{display:grid;gap:12px}
   @media (min-width: 760px){
@@ -125,8 +140,7 @@
   }
   .muted{color:var(--muted)}
   .center{text-align:center}
-  .small{font-size:.9rem}
-  @media (max-width:759px){ .small{ font-size: .98rem } }
+  .small{font-size:1rem}
   .btn{
     display:inline-flex;align-items:center;justify-content:center;gap:8px;
     padding:12px 14px;border-radius:10px;background:var(--accent);color:#313131;font-weight:700;border:none;cursor:pointer;
@@ -163,11 +177,11 @@
 
   /* gallery */
   .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-  .gallery picture { display:block; aspect-ratio: 3 / 4; }
+  .gallery picture{ display:block; aspect-ratio: 3 / 4; }
   .gallery picture > img{ width:100%; height:100%; object-fit:cover; display:block; }
   .gallery img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;cursor:pointer}
   .no-save{ -webkit-user-drag: none; user-select:none; -webkit-user-select:none }
-  .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:50}
+  .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:50}
   .lightbox.open{display:flex}
   .lightbox .lb-inner{position:relative;max-width:92vw;max-height:86vh;display:flex;align-items:center;justify-content:center}
   .lightbox img{max-width:92vw;max-height:86vh;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,.5);object-fit:contain;touch-action:none;}
@@ -180,17 +194,17 @@
 
   /* interview */
   .interview{padding:18px 14px;background:#fff7fa;border-radius:14px}
-  .interview .title{font-family:var(--font-fancy);letter-spacing:.02em;color:var(--accent);text-align:center;font-size:1.35rem}
-  .interview .subtitle{font-size:.85rem;text-align:center;margin:8px 0 16px}
+  .interview .title{letter-spacing:.02em;color:var(--accent);text-align:center;font-size:1.35rem}
+  .interview .subtitle{font-size:.95rem;text-align:center;margin:8px 0 16px}
   .bubble_container{display:grid;gap:16px;padding:0 10px}
   .bubble_box{display:flex;flex-direction:column;gap:8px;max-width:640px;margin:0}
   .bubble_box.left{align-items:flex-start}.bubble_box.right{align-items:flex-end}
-  .bubble_box .name{font-weight:800;font-size:.95rem;color:#888}
+  .bubble_box .name{font-weight:800;font-size:1rem;color:#888}
   .bubble_wrapper{position:relative;max-width:min(100%,640px)}
-  .bubble_text{display:inline-block;border-radius:16px;padding:14px 18px;font-size:1rem;line-height:1.68;box-shadow:var(--shadow)}
+  .bubble_text{display:inline-block;border-radius:16px;padding:14px 18px;font-size:1.05rem;line-height:1.9;box-shadow:var(--shadow)}
   .left .bubble_text{background:#eaf6ff}
   .right .bubble_text{background:var(--accent);color:#313131}
-  .inter-q{font-size:.98rem;margin:20px 0 10px;text-align:center;font-weight:700}
+  .inter-q{font-size:1.05rem;margin:22px 0 12px;text-align:center;font-weight:700}
 
   /* reveal */
   #interview .bubble_container { justify-items: start; }
@@ -203,23 +217,23 @@
   .reveal { opacity: 0; transform: translateY(26px); transition: opacity .55s ease, transform .55s ease; }
   .reveal.show { opacity: 1; transform: none; }
 
-  /* INVITATION 전용 확대 (모바일 우선) */
-  #invitation .poem{ font-size:1rem; line-height:1.9 }
-  #invitation .small{ font-size:1rem }
+  /* INVITATION 전용(줄배치 고정) */
+  #invitation .poem{ font-size:1.05rem; line-height:2.0; white-space:pre-wrap }
+  #invitation .small{ font-size:1.02rem }
   @media (min-width:760px){
-    #invitation .poem{ font-size:.98rem }
-    #invitation .small{ font-size:.95rem }
+    #invitation .poem{ font-size:1.02rem }
+    #invitation .small{ font-size:1.0rem }
   }
 
   .poem{ white-space: pre-line; }
-  footer{padding:28px 0 16px;text-align:center;color:var(--muted);font-size:.78rem}
+  footer{padding:28px 0 16px;text-align:center;color:var(--muted);font-size:.9rem}
   </style>
 </head>
 <body>
 
   <header class="wrap">
     <div class="hero">
-      <!-- 히어로: 로컬은 JPG, 배포 시 WebP/AVIF 자동 활성화 -->
+      <!-- 히어로 -->
       <picture>
         <source data-srcset="
           https://smjhwedding.github.io/hero-1920.avif 1920w,
@@ -241,17 +255,15 @@
 
       <div class="dday-badge" id="ddayTop">D-90</div>
 
-      <div class="fall-layer" aria-hidden="true">
-        <span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span><span></span>
-      </div>
+      <!-- SVG 아이콘 파티클 레이어 -->
+      <div class="spark-layer" aria-hidden="true" id="sparkLayer"></div>
 
       <div class="hero-inner">
         <div class="names">상민 <span class="amp">♥</span> 진희</div>
         <div class="date">
-          <span class="d1">2025년 12월 13일 (토)</span>
-          <span class="d2">오후 2시 · 더에스비웨딩컨벤션</span>
+          <!-- 고정 줄배치 -->
+          <span class="d1">2025년 12월 13일&nbsp;&nbsp;(토) 오후 2시</span>
+          <span class="d2">더에스비웨딩컨벤션</span>
         </div>
       </div>
     </div>
@@ -261,49 +273,40 @@
     <!-- INVITATION -->
     <section id="invitation" class="card center">
       <h2 class="section-title">INVITATION</h2>
+      <!-- 글자 배열 고정 -->
       <p class="small poem">봄처럼 포근하고 여름처럼 뜨겁고 
-가을처럼 충만하고 겨울처럼 설레는 사람을 만났습니다.
-이제 서로의 모든 계절을 지나려 합니다.
-가장 빛나는 날,
-늘 곁에서 아껴준 고마운 분들을 초대합니다.</p>
+가을처럼 충만하고 겨울처럼 설레는
+사람을 만났습니다.
+
+이제 서로의 
+모든 계절을 지나려 합니다.
+
+가장 빛나는 날, 늘 곁에서 아껴준
+고마운 분들을 초대합니다.</p>
       <div class="divider"></div>
       <div class="small">
         <p><span class="muted">이제영, 윤혜정의 아들</span> <b>신랑</b> 이상민</p>
         <p><span class="muted">⚘ 이종명, 이정연의 딸</span> <b>신부</b> 이진희</p>
-        <p class="muted" style="margin-top:8px">장소 · 서울 동작구 보라매로5길 15</p>
       </div>
     </section>
 
-    <!-- CONTACT -->
-    <section>
-      <h2 class="section-title">CONTACT</h2>
-      <div class="grid cols-2">
-        <details class="groom">
-          <summary>신랑측 연락하기 <span>▼</span></summary>
-          <div class="rows small">
-            <div class="row">신랑 이상민 • <a href="tel:01050405445">010-5040-5445</a> <span class="copy" data-copy="01050405445">복사</span></div>
-            <div class="row">아버지 이제영 • <a href="tel:01052030725">010-5203-0725</a> <span class="copy" data-copy="01052030725">복사</span></div>
-            <div class="row">어머니 윤혜정 • <a href="tel:01023710724">010-2371-0724</a> <span class="copy" data-copy="01023710724">복사</span></div>
-          </div>
-        </details>
-
-        <details class="bride">
-          <summary>신부측 연락하기 <span>▼</span></summary>
-          <div class="rows small">
-            <div class="row">신부 이진희 • <a href="tel:01035364854">010-3536-4854</a> <span class="copy" data-copy="01035364854">복사</span></div>
-            <div class="row">어머니 이정연 • <a href="tel:01084704854">010-8470-4854</a> <span class="copy" data-copy="01084704854">복사</span></div>
-          </div>
-        </details>
-      </div>
-    </section>
-
-    <!-- ACCOUNT NUMBER -->
+    <!-- ACCOUNT NUMBER (신랑 위, 신부 아래) -->
     <section class="account">
       <h2 class="section-title">ACCOUNT NUMBER</h2>
-      <p class="small center muted">부담 갖지 않으셔도 됩니다. 필요하신 분만 이용해주세요.</p>
+      <p class="small center muted">부담 갖지 않으셔도 됩니다.<br>필요하신 분만 이용해주세요.</p>
 
       <div class="grid cols-2">
-        <!-- 신부측 -->
+        <!-- 신랑측 (위) -->
+        <details class="groom">
+          <summary>신랑측 <span>▼</span></summary>
+          <div class="rows small">
+            <div class="row" style="justify-content:flex-start"><b>신랑 계좌</b></div>
+            <div class="row" style="justify-content:flex-start">카카오뱅크 <span class="muted">(예금주 : 이상민)</span></div>
+            <div class="row"><span>계좌번호</span> <span class="copy" data-copy="79421200552">79421200552</span></div>
+          </div>
+        </details>
+
+        <!-- 신부측 (아래) -->
         <details class="bride">
           <summary>신부측 <span>▼</span></summary>
           <div class="rows small">
@@ -316,16 +319,6 @@
             <div class="row" style="justify-content:flex-start"><b>신부혼주 계좌</b></div>
             <div class="row" style="justify-content:flex-start">지역농축협 <span class="muted">(예금주 : 이정연)</span></div>
             <div class="row"><span>계좌번호</span> <span class="copy" data-copy="13003652103656">13003652103656</span></div>
-          </div>
-        </details>
-
-        <!-- 신랑측 -->
-        <details class="groom">
-          <summary>신랑측 <span>▼</span></summary>
-          <div class="rows small">
-            <div class="row" style="justify-content:flex-start"><b>신랑 계좌</b></div>
-            <div class="row" style="justify-content:flex-start">카카오뱅크 <span class="muted">(예금주 : 이상민)</span></div>
-            <div class="row"><span>계좌번호</span> <span class="copy" data-copy="79421200552">79421200552</span></div>
           </div>
         </details>
       </div>
@@ -346,8 +339,9 @@
     <!-- GALLERY -->
     <section>
       <h2 class="section-title">GALLERY</h2>
-      <p class="small muted center">사진을 클릭하면 크게 볼 수 있어요. 좌우로 넘겨볼 수 있어요.</p>
+      <p class="small muted center">사진을 클릭하면 크게 볼 수 있어요.<br>좌우로 넘겨볼 수 있어요.</p>
       <div class="gallery card" id="gallery">
+        <!-- 상세보기는 원본 이미지로 -->
         <!-- 갤러리 1 -->
         <picture>
           <source data-srcset="
@@ -362,6 +356,7 @@
           " type="image/webp" sizes="(min-width:760px) 33vw, 33vw">
           <img class="no-save"
                src="./KakaoTalk_20250908_010410211_01.jpg"
+               data-full="./KakaoTalk_20250908_010410211_01.jpg"
                alt="gallery1"
                width="1024" height="1365"
                loading="lazy" decoding="async"
@@ -382,6 +377,7 @@
           " type="image/webp" sizes="(min-width:760px) 33vw, 33vw">
           <img class="no-save"
                src="./KakaoTalk_20250908_010410211.jpg"
+               data-full="./KakaoTalk_20250908_010410211.jpg"
                alt="gallery2"
                width="1024" height="1365"
                loading="lazy" decoding="async"
@@ -431,7 +427,7 @@
       <div class="bubble_container">
         <div class="bubble_box left">
           <p class="name">상민</p>
-          <div class="bubble_wrapper"><p class="bubble_text">빵 미만 잡</p></div>
+          <div class="bubble_wrapper"><p class="bubble_text">옴청 빵순이!</p></div>
         </div>
         <div class="bubble_box right">
           <p class="name">진희</p>
@@ -474,6 +470,7 @@
           <a class="btn ghost" target="_blank"
             href="https://map.kakao.com/link/search/%EB%8F%99%EC%9E%91%EA%B5%AC%20%EB%B3%B4%EB%9D%BC%EB%A7%A4%EB%A1%9C5%EA%B8%B8%2015"
             rel="noopener">카카오맵 열기</a>
+          <a class="btn ghost" target="_blank" href="https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EB%8F%99%EC%9E%91%EA%B5%AC%20%EB%B3%B4%EB%9D%BC%EB%A7%A4%EB%A1%9C5%EA%B8%B8%2015" rel="noopener">네이버지도 열기</a>
           <a class="btn ghost" target="_blank" href="https://maps.google.com/?q=%EC%84%9C%EC%9A%B8%20%EB%8F%99%EC%9E%91%EA%B5%AC%20%EB%B3%B4%EB%9D%BC%EB%A7%A4%EB%A1%9C5%EA%B8%B8%2015%20%EB%8D%94%EC%97%90%EC%8A%A4%EB%B9%84%EC%9B%A8%EB%94%A9%EC%BB%A8%EB%B2%84%EC%85%98" rel="noopener">구글지도 열기</a>
         </div>
       </div>
@@ -486,8 +483,7 @@
         <a class="btn ghost" id="btnGoogle" target="_blank" rel="noopener">구글 캘린더로 열기</a>
       </div>
       <p class="small muted" style="margin-top:6px">
-        다운로드가 자동으로 시작되지 않으면
-        <!-- JS 미작동 대비: 기본 href도 호스팅 파일로 설정 -->
+        다운로드가 자동으로 시작되지 않으면<br>
         <a id="btnIcsDownload" href="https://smjhwedding.github.io/sangmin-jinhee-wedding-2025-12-13.ics" download="sangmin-jinhee-wedding-2025-12-13.ics">ICS 파일 직접 다운로드</a>
       </p>
       <p class="small muted" id="dlHint" style="margin-top:4px; display:none"></p>
@@ -554,7 +550,7 @@
 
     /* ===== D-DAY ===== */
     const target = new Date("2025-12-13T14:00:00+09:00").getTime();
-    const dtext = document.getElementById('dtext');
+    const dtext  = document.getElementById('dtext');
     const el = {
       d: document.getElementById('cd-days'),
       h: document.getElementById('cd-hours'),
@@ -594,7 +590,7 @@
       });
     });
 
-    /* ===== 갤러리 라이트박스 ===== */
+    /* ===== 갤러리 라이트박스 (원본 표시) ===== */
     const thumbs = Array.from(document.querySelectorAll('#gallery picture img'));
     const lb = document.getElementById('lightbox');
     const lbImg = lb.querySelector('img');
@@ -604,7 +600,9 @@
 
     function openAt(i){
       idx = (i + thumbs.length) % thumbs.length;
-      lbImg.src = thumbs[idx].currentSrc || thumbs[idx].src;
+      const t = thumbs[idx];
+      const full = t.getAttribute('data-full');
+      lbImg.src = full || t.currentSrc || t.src;
       lb.classList.add('open');
     }
     function closeLb(){ lb.classList.remove('open'); lbImg.src = ''; }
@@ -635,21 +633,17 @@
 
     /* ===== 캘린더 추가(아이폰/삼성/구글) ===== */
     (function(){
-      // 이벤트 정보
       const title = '상민 ♥ 진희 결혼식';
       const locationTxt = '더에스비웨딩컨벤션, 서울 동작구 보라매로5길 15';
       const details = '상민 ♥ 진희 결혼식';
-      // 2025-12-13 14:00 KST ~ 16:00 KST = 05:00Z ~ 07:00Z
       const dtStartZ = '20251213T050000Z';
       const dtEndZ   = '20251213T070000Z';
 
-      // 프로덕션에 호스팅된 ICS 파일(영문 파일명)
       const isProd = location.hostname === 'smjhwedding.github.io';
       const icsUrl = isProd
         ? 'https://smjhwedding.github.io/sangmin-jinhee-wedding-2025-12-13.ics'
         : '';
 
-      // 로컬/미배포 환경 폴백(메모리에서 생성)
       const ics = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Wedding Invite//KR
@@ -665,23 +659,16 @@ DTEND:${dtEndZ}
 END:VEVENT
 END:VCALENDAR`;
 
-      // 요소
       const btnAppleSamsung = document.getElementById('btnAppleSamsung');
       const btnGoogle       = document.getElementById('btnGoogle');
       const btnIcsDownload  = document.getElementById('btnIcsDownload');
       const dlHint          = document.getElementById('dlHint');
 
-      // 구글 캘린더 링크
       const gcalParams = new URLSearchParams({
         action:'TEMPLATE', text:title, details, location:locationTxt, dates:`${dtStartZ}/${dtEndZ}`
       });
       const gcalUrl = `https://calendar.google.com/calendar/render?${gcalParams.toString()}`;
       if (btnGoogle) btnGoogle.href = gcalUrl;
-
-      // UA
-      const ua = navigator.userAgent || '';
-      const isAndroid = /Android/i.test(ua);
-      const isKakao   = /KAKAOTALK/i.test(ua);
 
       function toast(msg){
         try{
@@ -693,7 +680,6 @@ END:VCALENDAR`;
         }catch(_){}
       }
 
-      // 백업 다운로드 링크: 프로덕션이면 호스팅 파일, 아니면 blob
       (function setDownloadLink(){
         if (!btnIcsDownload) return;
         if (isProd && icsUrl){
@@ -711,10 +697,9 @@ END:VCALENDAR`;
 
       function openHostedICS(){
         if (!icsUrl) return false;
-        window.open(icsUrl, '_blank'); // iOS: 등록화면, Android: 다운로드/열기
+        window.open(icsUrl, '_blank');
         return true;
       }
-
       function openIcsLocal(){
         try{
           const blob = new Blob([ics], { type:'text/calendar;charset=utf-8' });
@@ -727,6 +712,10 @@ END:VCALENDAR`;
       if (btnAppleSamsung){
         btnAppleSamsung.addEventListener('click', (e)=>{
           e.preventDefault();
+          const ua = navigator.userAgent || '';
+          const isAndroid = /Android/i.test(ua);
+          const isKakao   = /KAKAOTALK/i.test(ua);
+
           if (isProd && icsUrl){
             openHostedICS();
             if (isAndroid){
@@ -743,6 +732,76 @@ END:VCALENDAR`;
             openIcsLocal();
           }
         });
+      }
+    })();
+
+    /* SVG 파티클 생성 (하트/별/꽃) */
+    (function makeSparks(){
+      const layer = document.getElementById('sparkLayer');
+      if(!layer) return;
+
+      const createSVG = (type, color) => {
+        const svgns = 'http://www.w3.org/2000/svg';
+        const svg = document.createElementNS(svgns,'svg');
+        svg.setAttribute('viewBox','0 0 24 24');
+        svg.setAttribute('class','spark');
+        // 도형
+        if(type==='heart'){
+          const p = document.createElementNS(svgns,'path');
+          p.setAttribute('d','M12 21s-6.7-4.7-9.3-7.3C-0.3 10.7 2 6 6 6c2.1 0 3.4 1.2 4 2 0.6-0.8 1.9-2 4-2 4 0 6.3 4.7 3.3 7.7C18.7 16.3 12 21 12 21z');
+          p.setAttribute('fill',color);
+          svg.appendChild(p);
+        }else if(type==='star'){
+          const p = document.createElementNS(svgns,'path');
+          p.setAttribute('d','M12 2l2.5 6.9 7.3.5-5.6 4.3 1.9 7.1L12 17.8 5.9 20.8l1.9-7.1L2.2 9.4l7.3-.5L12 2z');
+          p.setAttribute('fill',color);
+          svg.appendChild(p);
+        }else{ // flower
+          const g = document.createElementNS(svgns,'g');
+          const petals = [
+            {cx:12, cy:6}, {cx:17, cy:9}, {cx:17, cy:15},
+            {cx:12, cy:18}, {cx:7, cy:15}, {cx:7, cy:9}
+          ];
+          petals.forEach(pt=>{
+            const c = document.createElementNS(svgns,'circle');
+            c.setAttribute('cx',pt.cx); c.setAttribute('cy',pt.cy); c.setAttribute('r',4.2);
+            c.setAttribute('fill',color);
+            g.appendChild(c);
+          });
+          const core = document.createElementNS(svgns,'circle');
+          core.setAttribute('cx',12); core.setAttribute('cy',12); core.setAttribute('r',2.6);
+          core.setAttribute('fill','#fff8');
+          g.appendChild(core);
+          svg.appendChild(g);
+        }
+        return svg;
+      };
+
+      const types = ['heart','star','flower'];
+      const colors = ['#edacb1','#ffd166','#ffcad4','#f6bdc5','#f9e5aa'];
+
+      const count = 24;
+      for(let i=0;i<count;i++){
+        const type = types[Math.floor(Math.random()*types.length)];
+        const color = colors[Math.floor(Math.random()*colors.length)];
+        const s = createSVG(type,color);
+
+        const left = Math.random()*100;                  // %
+        const delay = (Math.random()*4).toFixed(2)+'s';
+        const dur = (8 + Math.random()*6).toFixed(2)+'s';
+        const rotDur = (8 + Math.random()*8).toFixed(2)+'s';
+        const drift = (Math.random()*140 - 70).toFixed(0) + 'px';
+        const size = (16 + Math.random()*18).toFixed(0)+'px';
+
+        s.style.left = left + '%';
+        s.style.top = (70 + Math.random()*30) + '%';
+        s.style.setProperty('--dur', dur);
+        s.style.setProperty('--rotDur', rotDur);
+        s.style.setProperty('--drift', drift);
+        s.style.animationDelay = delay + ', 0s, 0s';
+        s.style.width = size; s.style.height = size;
+
+        layer.appendChild(s);
       }
     })();
   });
