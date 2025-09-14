@@ -56,8 +56,12 @@
   html{font-size:16px}
   @media (max-width: 759px){ html{ font-size:17.5px } }
 
-  /* 전체 폰트를 손글씨 폰트로 통일 */
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--font-fancy);-webkit-font-smoothing:antialiased}
+  /* 전체 폰트를 손글씨 폰트로 통일 + 가로 스크롤 방지 */
+  html,body{
+    margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:var(--font-fancy);-webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
 
   a{color:inherit;text-decoration:none}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:18px}
@@ -70,62 +74,53 @@
   }
   .hero-media{
     position:absolute; inset:0; z-index:0; display:block; width:100%; height:100%; object-fit:cover;
-    animation: kenburns 28s ease-in-out both;
-    /* 살짝만 밝게 (강한 빛반사 제거) */
+    animation: kenburnsPlus 26s ease-in-out infinite;
     filter: brightness(1.04) contrast(1.03) saturate(1.06);
     transform: scale(1.04);
+    transform-origin: 50% 60%;
+    will-change: transform;
   }
-  @keyframes kenburns{
-    0%{ transform: scale(1.06) translate3d(0,0,0) }
-    50%{ transform: scale(1.12) translate3d(0, -1.2%, 0) }
-    100%{ transform: scale(1.08) translate3d(0, 0, 0) }
+  /* 더 동적인 Ken Burns (줌+팬+살짝 회전, 왕복) */
+  @keyframes kenburnsPlus{
+    0%   { transform: scale(1.06) translate3d(0, 0, 0) rotate(.2deg); transform-origin: 48% 62%; }
+    25%  { transform: scale(1.10) translate3d(-1.5%, -1.2%, 0) rotate(-.35deg); transform-origin: 45% 58%; }
+    50%  { transform: scale(1.13) translate3d(1.0%, -1.6%, 0) rotate(.35deg);  transform-origin: 55% 52%; }
+    75%  { transform: scale(1.10) translate3d(1.4%, 0.6%, 0) rotate(-.2deg);   transform-origin: 52% 66%; }
+    100% { transform: scale(1.06) translate3d(0, 0, 0) rotate(.2deg);           transform-origin: 48% 62%; }
   }
-  /* 상단 빛반사 오버레이 제거 → 아주 은은한 하단 그라데이션만 */
+
   .hero::after{
     content:"";position:absolute;inset:0;
     background: linear-gradient(0deg, rgba(0,0,0,.28) 0%, rgba(0,0,0,.12) 40%, rgba(0,0,0,0) 80%);
     z-index:1
   }
+  .hero::before{
+    content:""; position:absolute; inset:-10%;
+    background:
+      radial-gradient(120% 80% at 50% 80%, rgba(0,0,0,0.22), transparent 60%),
+      radial-gradient(120% 100% at 50% -10%, rgba(255,255,255,0.06), transparent 60%);
+    z-index:1; pointer-events:none;
+  }
   .hero-inner{position:relative;z-index:3;padding:46px 18px 30px}
-  .names{font-weight:400;font-size:2.5rem;letter-spacing:.02em}
-  @media (max-width:759px){ .names{ font-size:2.7rem } }
-  .amp{color:var(--accent)}
 
   .date{margin-top:12px;line-height:1.45}
-  /* 날짜/시간 줄배치 고정(두 줄) */
   .date .d1, .date .d2{display:block}
   .date .d1{font-size:1.08rem}
   .date .d2{font-size:1rem;opacity:.98}
   @media (max-width:759px){ .date .d2{font-size:1.02rem} }
 
+  /* D-90 배지: 하얀 글씨 */
   .dday-badge{
     position:absolute;top:10px;left:50%;transform:translateX(-50%);
     z-index:4;
-    background:rgba(255,255,255,.40); border:1px solid rgba(255,255,255,.65);
+    background:rgba(0,0,0,.34); border:1px solid rgba(255,255,255,.45);
     padding:6px 10px;border-radius:999px;font-size:.78rem;backdrop-filter: blur(6px);
-    color:#333; text-shadow:0 1px 2px rgba(255,255,255,.35);
+    color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.35);
   }
 
-  /* SVG 이미지 파티클(하트/꽃/별) */
-  .spark-layer{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden}
-  .spark{
-    position:absolute; top:70%; left:50%;
-    transform: translateX(-50%);
-    width:22px; height:22px; opacity:0;
-    animation: floatUp var(--dur,9s) ease-in infinite, twinkle 2.2s ease-in-out infinite, spin var(--rotDur,10s) linear infinite;
-    filter: drop-shadow(0 2px 6px rgba(0,0,0,.15));
-  }
-  @keyframes floatUp{
-    0%{ transform: translate(-50%, 20vh) scale(.85); opacity:0 }
-    10%{ opacity:.95 }
-    60%{ opacity:.95 }
-    100%{ transform: translate(calc(-50% + var(--drift, 40px)), -120vh) scale(1.05); opacity:0 }
-  }
-  @keyframes twinkle{
-    0%,100%{ filter: drop-shadow(0 2px 8px rgba(255,255,255,.35)); opacity:.85 }
-    50%{ filter: drop-shadow(0 4px 10px rgba(255,255,255,.75)); opacity:1 }
-  }
-  @keyframes spin{ from{ rotate(0deg) } to{ rotate(360deg) } }
+  /* ===== HERO 파티클: 보케 캔버스 ===== */
+  .spark-layer{ position:absolute; inset:0; z-index:2; pointer-events:none; overflow:hidden; }
+  .spark-layer canvas{ position:absolute; inset:0; width:100%; height:100%; filter: blur(0.4px) saturate(1.05); }
 
   /* ===== 공통 ===== */
   h2.section-title{
@@ -145,6 +140,7 @@
     display:inline-flex;align-items:center;justify-content:center;gap:8px;
     padding:12px 14px;border-radius:10px;background:var(--accent);color:#313131;font-weight:700;border:none;cursor:pointer;
     box-shadow:0 6px 18px rgba(237,172,177,.35);font-size:.92rem;
+    white-space:nowrap;
   }
   .btn.ghost{background:#fff;border:1px solid #eee;box-shadow:none}
   .btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
@@ -187,53 +183,109 @@
   .lightbox img{max-width:92vw;max-height:86vh;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,.5);object-fit:contain;touch-action:none;}
   .lightbox .prev, .lightbox .next{
     position:absolute; top:50%; transform:translateY(-50%);
-    width:42px;height:42px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.45);
-    display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;cursor:pointer;user-select:none;backdrop-filter:blur(4px)
+    width:44px;height:44px;border-radius:999px;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.55);
+    display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;cursor:pointer;user-select:none;backdrop-filter:blur(4px)
   }
   .lightbox .prev{ left:-54px } .lightbox .next{ right:-54px }
 
-  /* interview */
-  .interview{padding:18px 14px;background:#fff7fa;border-radius:14px}
-  .interview .title{letter-spacing:.02em;color:var(--accent);text-align:center;font-size:1.35rem}
-  .interview .subtitle{font-size:.95rem;text-align:center;margin:8px 0 16px}
-  .bubble_container{display:grid;gap:16px;padding:0 10px}
-  .bubble_box{display:flex;flex-direction:column;gap:8px;max-width:640px;margin:0}
-  .bubble_box.left{align-items:flex-start}.bubble_box.right{align-items:flex-end}
-  .bubble_box .name{font-weight:800;font-size:1rem;color:#888}
-  .bubble_wrapper{position:relative;max-width:min(100%,640px)}
-  .bubble_text{display:inline-block;border-radius:16px;padding:14px 18px;font-size:1.05rem;line-height:1.9;box-shadow:var(--shadow)}
-  .left .bubble_text{background:#eaf6ff}
-  .right .bubble_text{background:var(--accent);color:#313131}
-  .inter-q{font-size:1.05rem;margin:22px 0 12px;text-align:center;font-weight:700}
+  /* ===== INTERVIEW: 중앙 콤팩트 + 더 촘촘 ===== */
+  .interview{
+    padding:12px 10px; background:#fff7fa; border-radius:14px
+  }
+  .interview .title{
+    letter-spacing:.02em;color:var(--accent);text-align:center;
+    font-size:1.08rem; margin:2px 0 4px;
+  }
+  .interview .subtitle{
+    font-size:.86rem;text-align:center;margin:0 0 8px 0;color:#777;
+  }
+  .interview-inner{
+    max-width:460px; margin:0 auto;   /* 가운데로 좁게 모으기 */
+  }
+  .inter-q{
+    font-size:.96rem;margin:8px 0 4px;text-align:center;font-weight:800
+  }
+  .bubble_container{
+    display:grid; gap:4px; padding:0 4px; margin:0 0 8px 0;
+  }
+  .bubble_box{
+    display:flex;flex-direction:column;gap:3px;
+    max-width:460px; margin:0 auto; width:100%;
+  }
+  .bubble_box.left{ align-items:flex-start; justify-self:start }
+  .bubble_box.right{ align-items:flex-end; justify-self:end }
+  .bubble_box .name{ font-weight:900; font-size:.88rem; color:#777; line-height:1.15 }
+  .bubble_text{
+    display:inline-block;border-radius:12px;padding:8px 10px;
+    font-size:.95rem; line-height:1.45; box-shadow:var(--shadow);
+    max-width:min(100%, 92vw);
+  }
+  .left .bubble_text{ background:#eaf6ff }
+  .right .bubble_text{ background:var(--accent); color:#313131 }
 
-  /* reveal */
-  #interview .bubble_container { justify-items: start; }
-  #interview .bubble_box.left  { justify-self: start; align-items: flex-start; }
-  #interview .bubble_box.right { justify-self: end;   align-items: flex-end;   }
-  .bubble_box { opacity: 0; transform: translateY(30px); transition: opacity .6s ease, transform .6s ease; }
-  .bubble_box.show { opacity:1; transform:none; }
-  .interview .interview_q, .interview .inter-q { opacity:.001; transform: translateY(20px); transition: opacity .45s ease, transform .45s ease; }
-  .interview .interview_q.show, .interview .inter-q.show { opacity:1; transform:none; }
-  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .55s ease, transform .55s ease; }
-  .reveal.show { opacity: 1; transform: none; }
+  /* reveal (짧게) */
+  .bubble_box { opacity:0; transform:translateY(12px); transition:opacity .28s ease, transform .28s ease }
+  .bubble_box.show { opacity:1; transform:none }
+  .interview .interview_q, .interview .inter-q { opacity:.001; transform:translateY(8px); transition:opacity .24s ease, transform .24s ease }
+  .interview .interview_q.show, .interview .inter-q.show { opacity:1; transform:none }
 
-  /* INVITATION 전용(줄배치 고정) */
-  #invitation .poem{ font-size:1.05rem; line-height:2.0; white-space:pre-wrap }
-  #invitation .small{ font-size:1.02rem }
-  @media (min-width:760px){
-    #invitation .poem{ font-size:1.02rem }
-    #invitation .small{ font-size:1.0rem }
+  /* 모바일 더 타이트 */
+  @media (max-width:430px){
+    .interview-inner{ max-width:420px }
+    .inter-q{ font-size:.92rem; margin:8px 0 3px }
+    .bubble_text{ font-size:.92rem; padding:7px 9px; line-height:1.42 }
+    .bubble_box .name{ font-size:.84rem }
+    .bubble_container{ gap:3px; margin-bottom:6px }
   }
 
-  .poem{ white-space: pre-line; }
+  /* ===== INVITATION 시(시구): 줄 간격 촘촘 + 공백 제거 ===== */
+  #invitation .poem{
+    font-size:1.02rem;
+    line-height:1.45;       /* 촘촘하게 */
+    white-space:pre-line;   /* 개행만 유지, 빈 줄 없음 */
+    margin:0;               /* 위아래 마진 제거 */
+  }
+  #invitation .small{ font-size:1.0rem }
+
+  /* 국화 아이콘 */
+  .icon-chry{ display:inline-flex; vertical-align:-2px; margin-right:4px }
+  .icon-chry svg{ width:1.05em; height:1.05em; }
+
+  /* ===== LOCATION: 버튼 1줄 3등분(가로 스크롤 제거) ===== */
+  .navi{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:8px; align-items:center; justify-items:center;
+    padding:2px 0; overflow-x:hidden;
+  }
+  .navi .btn{ width:100%; flex:none; padding:10px 8px; font-size:.9rem; min-width:0; }
+  @media (max-width:380px){
+    .navi .btn{ font-size:.86rem; padding:9px 6px }
+  }
+
   footer{padding:28px 0 16px;text-align:center;color:var(--muted);font-size:.9rem}
+
+  /* ===== 히어로 단어 레이어(은은한 3D 플로팅) ===== */
+  .hero-words{ position:absolute; inset:0; z-index:2; pointer-events:none; }
+  .hero-words .w{
+    position:absolute; font-family: var(--font-fancy);
+    font-weight:800; letter-spacing:.02em;
+    opacity:.14; filter: blur(.2px) drop-shadow(0 2px 6px rgba(0,0,0,.25));
+    mix-blend-mode: screen; color:#fff; transform: translateZ(0);
+    white-space:nowrap;
+    animation: floatWord linear infinite;
+  }
+  @keyframes floatWord{
+    0%{   transform: translate3d(var(--x,0), var(--yStart,0), 0) scale(var(--s,1)) rotate(var(--r1,.0deg)); }
+    50%{  transform: translate3d(calc(var(--x,0) + var(--dx,0px)), calc(var(--yMid,0) - 6%), 0) scale(calc(var(--s,1) * 1.04)) rotate(var(--r2,.0deg)); }
+    100%{ transform: translate3d(calc(var(--x,0) + calc(var(--dx,0px)*2)), var(--yEnd,0), 0) scale(var(--s,1)) rotate(var(--r1,.0deg)); }
+  }
   </style>
 </head>
 <body>
 
   <header class="wrap">
     <div class="hero">
-      <!-- 히어로 -->
       <picture>
         <source data-srcset="
           https://smjhwedding.github.io/hero-1920.avif 1920w,
@@ -255,13 +307,12 @@
 
       <div class="dday-badge" id="ddayTop">D-90</div>
 
-      <!-- SVG 아이콘 파티클 레이어 -->
+      <!-- 보케 파티클 레이어 (Canvas) -->
       <div class="spark-layer" aria-hidden="true" id="sparkLayer"></div>
 
       <div class="hero-inner">
-        <div class="names">상민 <span class="amp">♥</span> 진희</div>
+        <!-- 메인 이름 표시는 제거 -->
         <div class="date">
-          <!-- 고정 줄배치 -->
           <span class="d1">2025년 12월 13일&nbsp;&nbsp;(토) 오후 2시</span>
           <span class="d2">더에스비웨딩컨벤션</span>
         </div>
@@ -273,30 +324,56 @@
     <!-- INVITATION -->
     <section id="invitation" class="card center">
       <h2 class="section-title">INVITATION</h2>
-      <!-- 글자 배열 고정 -->
-      <p class="small poem">봄처럼 포근하고 여름처럼 뜨겁고 
+      <!-- 빈 줄 없이, 모든 줄 촘촘하게 -->
+      <p class="small poem">봄처럼 포근하고 여름처럼 뜨겁고
 가을처럼 충만하고 겨울처럼 설레는
 사람을 만났습니다.
-
-이제 서로의 
+이제 서로의
 모든 계절을 지나려 합니다.
-
 가장 빛나는 날, 늘 곁에서 아껴준
 고마운 분들을 초대합니다.</p>
       <div class="divider"></div>
       <div class="small">
-        <p><span class="muted">이제영, 윤혜정의 아들</span> <b>신랑</b> 이상민</p>
-        <p><span class="muted">⚘ 이종명, 이정연의 딸</span> <b>신부</b> 이진희</p>
+        <p><span class="muted">이제영, 윤혜정의 아들</span> <b>신랑 이상민</b></p>
+        <p>
+          <span class="muted">
+            <span class="icon-chry" aria-hidden="true">
+              <!-- Chrysanthemum(국화) inline SVG -->
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="국화">
+                <circle cx="24" cy="24" r="4.5" fill="#ffdf7e"/>
+                <g fill="#f2b7c0">
+                  <circle cx="24" cy="10" r="5.2"/>
+                  <circle cx="36.5" cy="14.5" r="4.8"/>
+                  <circle cx="40" cy="26" r="5.4"/>
+                  <circle cx="31.5" cy="36" r="5.1"/>
+                  <circle cx="16.5" cy="36" r="5.1"/>
+                  <circle cx="8" cy="26" r="5.4"/>
+                  <circle cx="11.5" cy="14.5" r="4.8"/>
+                </g>
+                <g fill="#ffd6de" opacity=".95">
+                  <circle cx="24" cy="6.5" r="3.2"/>
+                  <circle cx="39.5" cy="12" r="3.0"/>
+                  <circle cx="42" cy="26" r="3.2"/>
+                  <circle cx="33.5" cy="39" r="3.1"/>
+                  <circle cx="14.5" cy="39" r="3.1"/>
+                  <circle cx="6" cy="26" r="3.2"/>
+                  <circle cx="8.5" cy="12" r="3.0"/>
+                </g>
+              </svg>
+            </span>
+            이종명, 이정연의 딸
+          </span>
+          <b> 신부 이진희</b>
+        </p>
       </div>
     </section>
 
-    <!-- ACCOUNT NUMBER (신랑 위, 신부 아래) -->
+    <!-- ACCOUNT NUMBER -->
     <section class="account">
       <h2 class="section-title">ACCOUNT NUMBER</h2>
       <p class="small center muted">부담 갖지 않으셔도 됩니다.<br>필요하신 분만 이용해주세요.</p>
 
       <div class="grid cols-2">
-        <!-- 신랑측 (위) -->
         <details class="groom">
           <summary>신랑측 <span>▼</span></summary>
           <div class="rows small">
@@ -306,7 +383,6 @@
           </div>
         </details>
 
-        <!-- 신부측 (아래) -->
         <details class="bride">
           <summary>신부측 <span>▼</span></summary>
           <div class="rows small">
@@ -339,10 +415,8 @@
     <!-- GALLERY -->
     <section>
       <h2 class="section-title">GALLERY</h2>
-      <p class="small muted center">사진을 클릭하면 크게 볼 수 있어요.<br>좌우로 넘겨볼 수 있어요.</p>
+      <p class="small muted center">사진을 클릭하면 크게 볼 수 있어요.<br>좌우 화살표로 넘길 수 있어요.</p>
       <div class="gallery card" id="gallery">
-        <!-- 상세보기는 원본 이미지로 -->
-        <!-- 갤러리 1 -->
         <picture>
           <source data-srcset="
             https://smjhwedding.github.io/gallery1-1024.avif 1024w,
@@ -363,7 +437,6 @@
                draggable="false" oncontextmenu="return false" onmousedown="return false">
         </picture>
 
-        <!-- 갤러리 2 -->
         <picture>
           <source data-srcset="
             https://smjhwedding.github.io/gallery2-1024.avif 1024w,
@@ -394,68 +467,70 @@
       </div>
     </section>
 
-    <!-- INTERVIEW -->
+    <!-- INTERVIEW (중앙 콤팩트) -->
     <section class="card interview" id="interview">
-      <h3 class="title">INTERVIEW</h3>
-      <p class="subtitle">서로를 더 가까이</p>
+      <div class="interview-inner">
+        <h3 class="title">INTERVIEW</h3>
+        <p class="subtitle">서로를 더 가까이</p>
 
-      <p class="inter-q">처음 본 순간 느낌?</p>
-      <div class="bubble_container">
-        <div class="bubble_box left">
-          <p class="name">상민</p>
-          <div class="bubble_wrapper"><p class="bubble_text">빨간 볼이 매력적이었어</p></div>
+        <p class="inter-q">핸드폰에 저장된 이름?</p>
+        <div class="bubble_container">
+          <div class="bubble_box left">
+            <p class="name">상민</p>
+            <div class="bubble_wrapper"><p class="bubble_text">찌니프</p></div>
+          </div>
+          <div class="bubble_box right">
+            <p class="name">진희</p>
+            <div class="bubble_wrapper"><p class="bubble_text">보스미니</p></div>
+          </div>
         </div>
-        <div class="bubble_box right">
-          <p class="name">진희</p>
-          <div class="bubble_wrapper"><p class="bubble_text">부드러운 미소가 좋았어</p></div>
-        </div>
-      </div>
 
-      <p class="inter-q">내 매력 포인트는?</p>
-      <div class="bubble_container">
-        <div class="bubble_box left">
-          <p class="name">상민</p>
-          <div class="bubble_wrapper"><p class="bubble_text">완벽한 성대모사</p></div>
+        <p class="inter-q">처음 본 순간 느낌?</p>
+        <div class="bubble_container">
+          <div class="bubble_box left">
+            <p class="name">상민</p>
+            <div class="bubble_wrapper"><p class="bubble_text">빨간 볼이 매력적이었어</p></div>
+          </div>
+          <div class="bubble_box right">
+            <p class="name">진희</p>
+            <div class="bubble_wrapper"><p class="bubble_text">부드러운 미소가 좋았어</p></div>
+          </div>
         </div>
-        <div class="bubble_box right">
-          <p class="name">진희</p>
-          <div class="bubble_wrapper"><p class="bubble_text">쏘옥 들어가는 보조개 😊</p></div>
-        </div>
-      </div>
 
-      <p class="inter-q">내가 제일 좋아하는 음식은?</p>
-      <div class="bubble_container">
-        <div class="bubble_box left">
-          <p class="name">상민</p>
-          <div class="bubble_wrapper"><p class="bubble_text">옴청 빵순이!</p></div>
+        <p class="inter-q">내 매력 포인트는?</p>
+        <div class="bubble_container">
+          <div class="bubble_box left">
+            <p class="name">상민</p>
+            <div class="bubble_wrapper"><p class="bubble_text">완벽한 성대모사</p></div>
+          </div>
+          <div class="bubble_box right">
+            <p class="name">진희</p>
+            <div class="bubble_wrapper"><p class="bubble_text">쏘옥 들어가는 보조개 😊</p></div>
+          </div>
         </div>
-        <div class="bubble_box right">
-          <p class="name">진희</p>
-          <div class="bubble_wrapper"><p class="bubble_text">또! 또!! 또!!! 제육</p></div>
-        </div>
-      </div>
 
-      <p class="inter-q">핸드폰에 저장된 이름?</p>
-      <div class="bubble_container">
-        <div class="bubble_box left">
-          <p class="name">상민</p>
-          <div class="bubble_wrapper"><p class="bubble_text">찌니프</p></div>
+        <p class="inter-q">내가 제일 좋아하는 음식은?</p>
+        <div class="bubble_container">
+          <div class="bubble_box left">
+            <p class="name">상민</p>
+            <div class="bubble_wrapper"><p class="bubble_text">엄청 빵순이!</p></div>
+          </div>
+          <div class="bubble_box right">
+            <p class="name">진희</p>
+            <div class="bubble_wrapper"><p class="bubble_text">또! 또!! 또!!! 제육</p></div>
+          </div>
         </div>
-        <div class="bubble_box right">
-          <p class="name">진희</p>
-          <div class="bubble_wrapper"><p class="bubble_text">보스미니</p></div>
-        </div>
-      </div>
 
-      <p class="inter-q">10년 뒤 우리 모습은?</p>
-      <div class="bubble_container">
-        <div class="bubble_box left">
-          <p class="name">상민</p>
-          <div class="bubble_wrapper"><p class="bubble_text">아이와 함께 보드게임 하기</p></div>
-        </div>
-        <div class="bubble_box right">
-          <p class="name">진희</p>
-          <div class="bubble_wrapper"><p class="bubble_text">가족 모두 유니폼 입고 야구장 직관하기</p></div>
+        <p class="inter-q">10년 뒤 우리 모습은?</p>
+        <div class="bubble_container">
+          <div class="bubble_box left">
+            <p class="name">상민</p>
+            <div class="bubble_wrapper"><p class="bubble_text">아이와 함께 보드게임 하기</p></div>
+          </div>
+          <div class="bubble_box right">
+            <p class="name">진희</p>
+            <div class="bubble_wrapper"><p class="bubble_text">가족 모두 유니폼 입고 야구장 직관하기</p></div>
+          </div>
         </div>
       </div>
     </section>
@@ -469,9 +544,13 @@
         <div class="navi">
           <a class="btn ghost" target="_blank"
             href="https://map.kakao.com/link/search/%EB%8F%99%EC%9E%91%EA%B5%AC%20%EB%B3%B4%EB%9D%BC%EB%A7%A4%EB%A1%9C5%EA%B8%B8%2015"
-            rel="noopener">카카오맵 열기</a>
-          <a class="btn ghost" target="_blank" href="https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EB%8F%99%EC%9E%91%EA%B5%AC%20%EB%B3%B4%EB%9D%BC%EB%A7%A4%EB%A1%9C5%EA%B8%B8%2015" rel="noopener">네이버지도 열기</a>
-          <a class="btn ghost" target="_blank" href="https://maps.google.com/?q=%EC%84%9C%EC%9A%B8%20%EB%8F%99%EC%9E%91%EA%B5%AC%20%EB%B3%B4%EB%9D%BC%EB%A7%A4%EB%A1%9C5%EA%B8%B8%2015%20%EB%8D%94%EC%97%90%EC%8A%A4%EB%B9%84%EC%9B%A8%EB%94%A9%EC%BB%A8%EB%B2%84%EC%85%98" rel="noopener">구글지도 열기</a>
+            rel="noopener">카카오맵</a>
+          <a class="btn ghost" target="_blank"
+            href="https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EB%8F%99%EC%9E%91%EA%B5%AC%20%EB%B3%B4%EB%9D%BC%EB%A7%A4%EB%A1%9C5%EA%B8%B8%2015"
+            rel="noopener">네이버지도</a>
+          <a class="btn ghost" target="_blank"
+            href="https://maps.google.com/?q=%EC%84%9C%EC%9A%B8%20%EB%8F%99%EC%9E%91%EA%B5%AC%20%EB%B3%B4%EB%9D%BC%EB%A7%A4%EB%A1%9C5%EA%B8%B8%2015%20%EB%8D%94%EC%97%90%EC%8A%A4%EB%B9%84%EC%9B%A8%EB%94%A9%EC%BB%A8%EB%B2%84%EC%85%98"
+            rel="noopener">구글지도</a>
         </div>
       </div>
     </section>
@@ -499,13 +578,12 @@
 
   <script>
   document.addEventListener('DOMContentLoaded', () => {
-    /* ===== 프로덕션일 때만 AVIF/WEBP srcset 활성화 + 프리로드 주입 ===== */
+    /* 프로덕션일 때 webp/avif srcset 활성화 + 프리로드 */
     const isProd = location.hostname === 'smjhwedding.github.io';
     if (isProd) {
       document.querySelectorAll('source[data-srcset]').forEach(s => {
         s.setAttribute('srcset', s.getAttribute('data-srcset'));
       });
-      // hero 프리로드(옵션)
       const l = document.createElement('link');
       l.rel = 'preload'; l.as = 'image';
       l.href = 'https://smjhwedding.github.io/hero-1280.webp';
@@ -514,7 +592,7 @@
       document.head.appendChild(l);
     }
 
-    /* ===== 인터뷰/공통 리빌 ===== */
+    /* reveal */
     const interTargets = document.querySelectorAll(
       '#interview .inter-q, #interview .interview_q, #interview .bubble_container > div, #interview .bubble_box'
     );
@@ -532,7 +610,7 @@
     }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
     [...interTargets, ...commonReveals].forEach(el=> io.observe(el));
 
-    /* ===== 지도 (SDK 있으면 카카오, 없으면 iframe) ===== */
+    /* 지도: 카카오 SDK 있으면 카카오, 없으면 구글 iframe */
     function initKakaoMap(){
       if(!window.kakao || !kakao.maps) return;
       const container = document.getElementById('map');
@@ -548,7 +626,7 @@
       }
     }
 
-    /* ===== D-DAY ===== */
+    /* D-DAY */
     const target = new Date("2025-12-13T14:00:00+09:00").getTime();
     const dtext  = document.getElementById('dtext');
     const el = {
@@ -568,14 +646,10 @@
       const top = document.getElementById('ddayTop');
       if (top) top.textContent = "D-" + d;
     }
-    function tick(){
-      const now = Date.now();
-      let diff = Math.max(0, target - now);
-      refreshDday(diff);
-    }
+    function tick(){ const now = Date.now(); let diff = Math.max(0, target - now); refreshDday(diff); }
     tick(); setInterval(tick, 1000);
 
-    /* ===== 복사 버튼: 원상복귀 ===== */
+    /* 복사 버튼 */
     document.addEventListener('click', (e)=>{
       const btn = e.target.closest('.copy');
       if(!btn) return;
@@ -583,14 +657,11 @@
       navigator.clipboard.writeText(text).then(()=>{
         if (!btn.dataset.old) btn.dataset.old = btn.textContent;
         btn.textContent = '복사됨';
-        setTimeout(()=>{
-          btn.textContent = btn.dataset.old || text;
-          delete btn.dataset.old;
-        }, 1200);
+        setTimeout(()=>{ btn.textContent = btn.dataset.old || text; delete btn.dataset.old; }, 1200);
       });
     });
 
-    /* ===== 갤러리 라이트박스 (원본 표시) ===== */
+    /* 라이트박스 */
     const thumbs = Array.from(document.querySelectorAll('#gallery picture img'));
     const lb = document.getElementById('lightbox');
     const lbImg = lb.querySelector('img');
@@ -631,7 +702,7 @@
       if(e.target.closest('#gallery') || e.target.closest('#lightbox')) e.preventDefault();
     });
 
-    /* ===== 캘린더 추가(아이폰/삼성/구글) ===== */
+    /* 캘린더 */
     (function(){
       const title = '상민 ♥ 진희 결혼식';
       const locationTxt = '더에스비웨딩컨벤션, 서울 동작구 보라매로5길 15';
@@ -640,9 +711,7 @@
       const dtEndZ   = '20251213T070000Z';
 
       const isProd = location.hostname === 'smjhwedding.github.io';
-      const icsUrl = isProd
-        ? 'https://smjhwedding.github.io/sangmin-jinhee-wedding-2025-12-13.ics'
-        : '';
+      const icsUrl = isProd ? 'https://smjhwedding.github.io/sangmin-jinhee-wedding-2025-12-13.ics' : '';
 
       const ics = `BEGIN:VCALENDAR
 VERSION:2.0
@@ -670,16 +739,6 @@ END:VCALENDAR`;
       const gcalUrl = `https://calendar.google.com/calendar/render?${gcalParams.toString()}`;
       if (btnGoogle) btnGoogle.href = gcalUrl;
 
-      function toast(msg){
-        try{
-          const tip = document.createElement('div');
-          tip.textContent = msg;
-          tip.style.cssText = 'position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:rgba(0,0,0,.85);color:#fff;padding:10px 12px;border-radius:10px;font-size:12px;z-index:9999;max-width:92vw;text-align:center;white-space:pre-line';
-          document.body.appendChild(tip);
-          setTimeout(()=> tip.remove(), 4200);
-        }catch(_){}
-      }
-
       (function setDownloadLink(){
         if (!btnIcsDownload) return;
         if (isProd && icsUrl){
@@ -695,11 +754,7 @@ END:VCALENDAR`;
         }
       })();
 
-      function openHostedICS(){
-        if (!icsUrl) return false;
-        window.open(icsUrl, '_blank');
-        return true;
-      }
+      function openHostedICS(){ if (!icsUrl) return false; window.open(icsUrl, '_blank'); return true; }
       function openIcsLocal(){
         try{
           const blob = new Blob([ics], { type:'text/calendar;charset=utf-8' });
@@ -722,7 +777,11 @@ END:VCALENDAR`;
               const msg = isKakao
                 ? '다운로드가 시작되거나 새 창이 열립니다. 카카오톡 우측 상단(⋮) → 다운로드 관리에서 .ics 파일을 탭해 주세요.'
                 : '다운로드가 시작되거나 새 창이 열립니다. 알림 또는 내 파일 > Download에서 .ics 파일을 탭해 주세요.';
-              toast(msg);
+              const tip = document.createElement('div');
+              tip.textContent = msg;
+              tip.style.cssText = 'position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:rgba(0,0,0,.85);color:#fff;padding:10px 12px;border-radius:10px;font-size:12px;z-index:9999;max-width:92vw;text-align:center;white-space:pre-line';
+              document.body.appendChild(tip);
+              setTimeout(()=> tip.remove(), 4200);
               if (dlHint){
                 dlHint.style.display='block';
                 dlHint.textContent='안드로이드: 알림/다운로드 목록에서 .ics 파일을 탭하면 캘린더로 열립니다.';
@@ -735,74 +794,157 @@ END:VCALENDAR`;
       }
     })();
 
-    /* SVG 파티클 생성 (하트/별/꽃) */
-    (function makeSparks(){
+    /* 보케 파티클(Canvas) */
+    (function bokehParticles(){
       const layer = document.getElementById('sparkLayer');
       if(!layer) return;
+      const cvs = document.createElement('canvas');
+      const ctx = cvs.getContext('2d');
+      layer.appendChild(cvs);
 
-      const createSVG = (type, color) => {
-        const svgns = 'http://www.w3.org/2000/svg';
-        const svg = document.createElementNS(svgns,'svg');
-        svg.setAttribute('viewBox','0 0 24 24');
-        svg.setAttribute('class','spark');
-        // 도형
-        if(type==='heart'){
-          const p = document.createElementNS(svgns,'path');
-          p.setAttribute('d','M12 21s-6.7-4.7-9.3-7.3C-0.3 10.7 2 6 6 6c2.1 0 3.4 1.2 4 2 0.6-0.8 1.9-2 4-2 4 0 6.3 4.7 3.3 7.7C18.7 16.3 12 21 12 21z');
-          p.setAttribute('fill',color);
-          svg.appendChild(p);
-        }else if(type==='star'){
-          const p = document.createElementNS(svgns,'path');
-          p.setAttribute('d','M12 2l2.5 6.9 7.3.5-5.6 4.3 1.9 7.1L12 17.8 5.9 20.8l1.9-7.1L2.2 9.4l7.3-.5L12 2z');
-          p.setAttribute('fill',color);
-          svg.appendChild(p);
-        }else{ // flower
-          const g = document.createElementNS(svgns,'g');
-          const petals = [
-            {cx:12, cy:6}, {cx:17, cy:9}, {cx:17, cy:15},
-            {cx:12, cy:18}, {cx:7, cy:15}, {cx:7, cy:9}
-          ];
-          petals.forEach(pt=>{
-            const c = document.createElementNS(svgns,'circle');
-            c.setAttribute('cx',pt.cx); c.setAttribute('cy',pt.cy); c.setAttribute('r',4.2);
-            c.setAttribute('fill',color);
-            g.appendChild(c);
-          });
-          const core = document.createElementNS(svgns,'circle');
-          core.setAttribute('cx',12); core.setAttribute('cy',12); core.setAttribute('r',2.6);
-          core.setAttribute('fill','#fff8');
-          g.appendChild(core);
-          svg.appendChild(g);
-        }
-        return svg;
-      };
-
-      const types = ['heart','star','flower'];
-      const colors = ['#edacb1','#ffd166','#ffcad4','#f6bdc5','#f9e5aa'];
-
-      const count = 24;
-      for(let i=0;i<count;i++){
-        const type = types[Math.floor(Math.random()*types.length)];
-        const color = colors[Math.floor(Math.random()*colors.length)];
-        const s = createSVG(type,color);
-
-        const left = Math.random()*100;                  // %
-        const delay = (Math.random()*4).toFixed(2)+'s';
-        const dur = (8 + Math.random()*6).toFixed(2)+'s';
-        const rotDur = (8 + Math.random()*8).toFixed(2)+'s';
-        const drift = (Math.random()*140 - 70).toFixed(0) + 'px';
-        const size = (16 + Math.random()*18).toFixed(0)+'px';
-
-        s.style.left = left + '%';
-        s.style.top = (70 + Math.random()*30) + '%';
-        s.style.setProperty('--dur', dur);
-        s.style.setProperty('--rotDur', rotDur);
-        s.style.setProperty('--drift', drift);
-        s.style.animationDelay = delay + ', 0s, 0s';
-        s.style.width = size; s.style.height = size;
-
-        layer.appendChild(s);
+      let w, h, dpr;
+      function resize(){
+        dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+        w = layer.clientWidth; h = layer.clientHeight;
+        cvs.width = Math.floor(w * dpr); cvs.height = Math.floor(h * dpr);
+        cvs.style.width = w + 'px'; cvs.style.height = h + 'px';
       }
+      resize(); window.addEventListener('resize', resize);
+
+      const colors = [
+        [255, 236, 214],
+        [255, 213, 163],
+        [253, 222, 229],
+        [246, 189, 197],
+        [255, 244, 224],
+      ];
+
+      const particles = [];
+      const COUNT = 46;
+      const rMin = 6, rMax = 22;
+
+      function rnd(a, b){ return a + Math.random()*(b-a); }
+      function pick(arr){ return arr[(Math.random()*arr.length)|0]; }
+
+      function makeOne(yStart){
+        const r = rnd(rMin, rMax);
+        const c = pick(colors);
+        return {
+          x: rnd(-w*0.1, w*1.1),
+          y: typeof yStart==='number' ? yStart : rnd(h*0.5, h*1.15),
+          r,
+          vy: rnd(-0.25, -0.08),
+          drift: rnd(-0.12, 0.12),
+          alpha: rnd(0.35, 0.85),
+          rgb: c,
+          tw: rnd(2.2, 4.2),
+          t0: Math.random()*Math.PI*2
+        };
+      }
+
+      for(let i=0;i<COUNT;i++) particles.push(makeOne());
+
+      let scrollY = window.scrollY || 0;
+      window.addEventListener('scroll', () => { scrollY = window.scrollY || 0; });
+
+      function draw(){
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.clearRect(0,0,cvs.width,cvs.height);
+
+        const parallax = (scrollY * 0.02) * dpr;
+
+        for(let i=0;i<particles.length;i++){
+          const p = particles[i];
+          p.x += p.drift; p.y += p.vy;
+          const twinkle = 0.5 + 0.5*Math.sin((performance.now()/1000)/p.tw + p.t0);
+          const a = Math.max(0, Math.min(1, p.alpha * (0.65 + 0.35*twinkle)));
+
+          if (p.y < -40) { particles[i] = makeOne(h + rnd(10, 120)); continue; }
+
+          ctx.globalCompositeOperation = 'lighter';
+          const [r,g,b] = p.rgb;
+          const R = p.r * dpr;
+
+          const grad = ctx.createRadialGradient((p.x*dpr), (p.y*dpr - parallax), R*0.2, (p.x*dpr), (p.y*dpr - parallax), R);
+          grad.addColorStop(0, `rgba(${r},${g},${b},${a*0.95})`);
+          grad.addColorStop(0.6, `rgba(${r},${g},${b},${a*0.35})`);
+          grad.addColorStop(1, `rgba(${r},${g},${b},0)`);
+          ctx.fillStyle = grad;
+          ctx.beginPath(); ctx.arc((p.x*dpr), (p.y*dpr - parallax), R, 0, Math.PI*2); ctx.fill();
+
+          ctx.globalAlpha = a*0.12;
+          ctx.beginPath(); ctx.arc((p.x*dpr), (p.y*dpr - parallax), R*0.35, 0, Math.PI*2);
+          ctx.fillStyle = `rgba(255,255,255,1)`; ctx.fill();
+          ctx.globalAlpha = 1;
+        }
+        requestAnimationFrame(draw);
+      }
+      requestAnimationFrame(draw);
+    })();
+
+    /* 히어로 단어 레이어(HTML 변경 없이 동적 삽입) */
+    (function heroWords(){
+      const hero = document.querySelector('.hero');
+      if(!hero) return;
+      const layer = document.createElement('div');
+      layer.className = 'hero-words';
+      hero.appendChild(layer);
+
+      const words = [
+        'Wedding', 'Love', 'Forever', '우리의 날', '축복', 'S & J', 'Happily Ever After'
+      ];
+      const rect = hero.getBoundingClientRect();
+      const W = rect.width || window.innerWidth;
+
+      function addWord(text, i){
+        const span = document.createElement('span');
+        span.className = 'w';
+        span.textContent = text;
+
+        const x = Math.random() * 60 + 20;      // 20% ~ 80%
+        const yS = Math.random() * 40 + 55;     // 55% ~ 95%
+        const yE = yS - (8 + Math.random()*10); // 위로 살짝
+        const dx = (Math.random() * 8 - 4) + 'vw';
+        const s = (Math.random()*0.3 + 0.9).toFixed(2);
+        const r1 = (Math.random() * 1 - 0.5).toFixed(2) + 'deg';
+        const r2 = (Math.random() * 1 - 0.5).toFixed(2) + 'deg';
+        const dur = (16 + Math.random()*10).toFixed(1) + 's';
+        const delay = (-Math.random()*10).toFixed(1) + 's';
+        const size = Math.round((W<=420? 18: 22) + Math.random()*12);
+
+        span.style.fontSize = size + 'px';
+        span.style.left = x + '%';
+        span.style.setProperty('--x', '-50%'); // 가운데 정렬 보정
+        span.style.setProperty('--yStart', yS + '%');
+        span.style.setProperty('--yMid', (yS - 4) + '%');
+        span.style.setProperty('--yEnd', yE + '%');
+        span.style.setProperty('--dx', dx);
+        span.style.setProperty('--s', s);
+        span.style.setProperty('--r1', r1);
+        span.style.setProperty('--r2', r2);
+        span.style.animationDuration = dur;
+        span.style.animationDelay = delay;
+
+        layer.appendChild(span);
+      }
+
+      const count = 9;
+      for(let i=0;i<count;i++){
+        addWord(words[i % words.length], i);
+      }
+
+      let to;
+      window.addEventListener('resize', ()=>{
+        clearTimeout(to);
+        to = setTimeout(()=>{
+          const W2 = hero.getBoundingClientRect().width || window.innerWidth;
+          layer.querySelectorAll('.w').forEach(el=>{
+            const base = (W2<=420? 18: 22);
+            const jitter = Math.random()*12;
+            el.style.fontSize = Math.round(base + jitter) + 'px';
+          });
+        }, 120);
+      });
     })();
   });
   </script>
