@@ -343,6 +343,20 @@
     }
     .hero-svg.measuring .wgm-row{ animation:none !important; transform:none !important; }
 
+    /* 애니 구간에만 마스크/클립 잠깐 해제해서 번쩍임 제거 */
+    .hero-svg.animfix .svg-top{
+      -webkit-mask: none !important;
+      mask: none !important;
+      clip-path: none !important;
+    }
+
+    /* 합성 안정화 힌트 (가속/뒤면 숨김) */
+    .hero-svg{ contain: paint; backface-visibility: hidden; transform: translateZ(0); }
+    .glyph.stroke{ will-change: stroke-dashoffset; backface-visibility: hidden; }
+
+    /* 혹시 남아있다면 stroke에 그림자 필터가 깜빡임 유발 → 확실히 차단 */
+    .svg-top .stroke{ filter: none !important; }
+
   </style>
 </head>
 <body>
@@ -1084,6 +1098,33 @@
           requestAnimationFrame(draw);
         }
         requestAnimationFrame(draw);
+      })();
+
+      /* 글씨 쓰는 동안만 mask/clip 꺼서 깜빡임 제거 (필기 애니메이션은 유지) */
+      (function squashWhiteFlicker(){
+        const svg = document.querySelector('.hero-svg');
+        if(!svg) return;
+
+        // 애니 구간 시작: 마스크/클립 일시 해제
+        svg.classList.add('animfix');
+
+        // 1줄(fill) 마지막 글리프 애니가 끝나면 원복
+        const lastGlyph =
+          svg.querySelector('.wgm-row:first-of-type .wgm-line:last-of-type .glyph.fill:last-of-type') ||
+          svg.querySelector('.wgm-row:first-of-type .glyph:last-of-type');
+
+        function done(){
+          svg.classList.remove('animfix');     // 마스크/클립 원복
+          lastGlyph && lastGlyph.removeEventListener('animationend', done);
+        }
+        if (lastGlyph) {
+          lastGlyph.addEventListener('animationend', done);
+          // 혹시 이벤트 못 잡아도 안전 타임아웃
+          setTimeout(done, 6000);
+        } else {
+          // 비상: 타깃을 못 찾으면 즉시 원복
+          svg.classList.remove('animfix');
+        }
       })();
 
     });
