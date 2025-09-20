@@ -140,14 +140,20 @@
 
     .svg-top .stroke{
       fill: transparent;
-      stroke: rgba(255,255,255,.98);
-      stroke-width: 1.8px;
-      stroke-linecap: round; stroke-linejoin: round;
-      filter: drop-shadow(0 8px 24px rgba(0,0,0,.35));
+      stroke: rgba(255,255,255,.7);   /* ✅ 흰색 윤곽선: 약하게 */
+      stroke-width: 2.6px;           /* ✅ 선 굵기 ↑ */
+      stroke-linecap: round; 
+      stroke-linejoin: round;
       vector-effect: non-scaling-stroke;
     }
-    .fill-top{    fill:#E6F5EA;  fill-opacity:.98; }
-    .fill-bottom{ fill:#F6C7D6;  fill-opacity:.98; }
+    .fill-top{    
+      fill:#CDEED3;   /* ✅ 연두색 → 더 진한 녹색 느낌 */
+      fill-opacity:1; /* ✅ 불투명하게 */
+    }
+    .fill-bottom{ 
+      fill:#E89CB2;   /* ✅ 핑크 → 더 진한 톤 */
+      fill-opacity:1; 
+    }
 
     .hero-svg .fancy{
       font-family: "AutographySVG", "Autography", "Hakgyoansim Geurimilgi", cursive;
