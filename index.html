@@ -323,6 +323,24 @@
     .svg_text .two-lines { display: block; width: 100%; height: auto; }
     .svg_text .hand-text { font-family: "Nanum Pen Script", "Pacifico", "Caveat", cursive; font-weight: 700; font-size: 64px; letter-spacing: 0.5px; dominant-baseline: hanging; }
     @media (max-width: 600px) { .svg_text .hand-text { font-size: 42px; } }
+
+    .hero-svg .stroke { filter: none; }  /* drop-shadow 제거 */
+    @media (max-width: 480px) {
+      :root{
+        --draw-dur: 1.2s;
+        --fill-dur: .6s;
+        --per-letter: .08s;
+        --fill-gap: .4s;
+      }
+    }
+
+    @media (max-width: 480px) {
+      @keyframes kenburnsPlus{
+        0%   { transform: scale(1.03) translate3d(0,0,0) rotate(.1deg); }
+        50%  { transform: scale(1.06) translate3d(.6%,-.6%,0) rotate(.2deg); }
+        100% { transform: scale(1.03) translate3d(0,0,0) rotate(.1deg); }
+      }
+    }
   </style>
 </head>
 <body>
@@ -375,7 +393,7 @@
           <!-- 중심(500,460) 기준 회전 + 스큐 -->
           <g id="wgmBlock" transform="rotate(-14 500 460) skewX(-6)" data-cx="560">
             <!-- 1줄 -->
-            <g class="wgm-row" style="--row-delay:0s">
+            <g class="wgm-row" style="--row-delay:1.0s">
               <!-- 윤곽선 -->
               <text x="500" y="428" class="stroke wgm-line" data-row="1" style="font-weight:700; font-size:85px;">
                 <tspan class="glyph stroke" style="--i:0">w</tspan>
@@ -437,8 +455,6 @@
         </g>
         <!-- === /SVG 타이틀 === -->
       </svg>
-
-      <div class="spark-layer" id="sparkLayer"></div>
 
       <div class="hero-inner">
         <div class="date-plain" aria-label="일시와 장소">
